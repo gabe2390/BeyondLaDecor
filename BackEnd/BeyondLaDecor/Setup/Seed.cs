@@ -1,4 +1,5 @@
-﻿using BeyondLaDecor.Beyond.Data;
+﻿using System;
+using BeyondLaDecor.Beyond.Data;
 
 namespace BeyondLaDecor.Data.Setup
 {
@@ -13,9 +14,28 @@ namespace BeyondLaDecor.Data.Setup
             SeedDefaultProducts(context);
         }
 
+        private void SeedDefaultProducts(BeyondDbContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SeedDefaultServices(BeyondDbContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SeedDefaultEventTypes(BeyondDbContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SeedDefaultProductTypes(BeyondDbContext context)
+        {
+            throw new NotImplementedException();
+        }
+
         private void SeedDefaultServiceTypes(BeyondDbContext context)
         {
-            context.
         }
     }
 }

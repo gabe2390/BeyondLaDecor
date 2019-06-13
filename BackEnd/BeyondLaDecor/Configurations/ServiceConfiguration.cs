@@ -3,7 +3,7 @@ using BeyondLaDecor.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BeyondLaDecor.Beyond.Data
+namespace BeyondLaDecor.Beyond.Data.Configurations
 {
     internal class ServiceConfiguration : ConfigurationBase<Service>
     {

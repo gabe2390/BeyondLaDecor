@@ -1,4 +1,4 @@
-﻿using BeyondLaDecor.Beyond.BusinessLayer;
+﻿using BeyondLaDecor.Beyond.Business;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;

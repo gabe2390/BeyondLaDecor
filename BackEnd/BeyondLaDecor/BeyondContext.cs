@@ -1,4 +1,5 @@
-﻿using BeyondLaDecor.Data.Models;
+﻿using BeyondLaDecor.Beyond.Data.Configurations;
+using BeyondLaDecor.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BeyondLaDecor.Beyond.Data

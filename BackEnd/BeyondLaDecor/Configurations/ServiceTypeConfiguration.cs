@@ -15,7 +15,6 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
 
         public override void ConfigureFilter(EntityTypeBuilder<ServiceType> builder)
         {
-            throw new System.NotImplementedException();
         }
 
         public override void ConfigureIndexes(EntityTypeBuilder<ServiceType> builder)

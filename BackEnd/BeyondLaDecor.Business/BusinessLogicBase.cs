@@ -1,7 +1,7 @@
-﻿using BeyondLaDecor.Beyond.Data;
+﻿using BeyondLaDecor.Beyond.Data.Repositories;
 using System.Collections.Generic;
 
-namespace BeyondLaDecor.Beyond.BusinessLayer
+namespace BeyondLaDecor.Beyond.Business
 {
     public interface IBusinessLogicBase<TModel> where TModel : class
     {

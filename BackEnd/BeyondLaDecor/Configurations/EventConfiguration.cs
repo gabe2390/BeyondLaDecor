@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BeyondLaDecor.Beyond.Data.Configurations
 {
-{
     internal class EventConfiguration : ConfigurationBase<Event>
     {
         private EntityTypeBuilder<Event> entityTypeBuilder;

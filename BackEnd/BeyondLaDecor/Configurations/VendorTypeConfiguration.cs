@@ -1,4 +1,5 @@
 ﻿using BeyondLaDecor.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BeyondLaDecor.Beyond.Data.Configurations
@@ -19,17 +20,21 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
 
         public override void ConfigureIndexes(EntityTypeBuilder<VendorType> builder)
         {
-            throw new System.NotImplementedException();
+            builder.HasIndex(e => e.TypeName);
         }
 
         public override void ConfigureProperties(EntityTypeBuilder<VendorType> builder)
         {
-            throw new System.NotImplementedException();
+            builder.HasKey(e => e.VendorTypeId);
+            builder.Property(e => e.TypeName).IsRequired();
         }
 
         public override void ConfigureRelationships(EntityTypeBuilder<VendorType> builder)
         {
-            throw new System.NotImplementedException();
+            builder.HasMany(e => e.Vendors)
+                .WithOne(e => e.VendorType)
+                .HasForeignKey(e => e.VendorTypeId)
+                .HasConstraintName("FK_VendorType_Vendor");
         }
     }
 }
