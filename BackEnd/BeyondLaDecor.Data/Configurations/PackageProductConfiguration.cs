@@ -34,11 +34,11 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasOne(e => e.Package)
                  .WithMany(e => e.PackageProducts)
                  .HasForeignKey(e => e.PackageId)
-                 .HasConstraintName("FK_Package_PackageProduct");
+                 .HasConstraintName("FK_Package_PackageProduct").OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(e => e.Product)
                .WithMany(e => e.PackageProducts)
                .HasForeignKey(e => e.ProductId)
-               .HasConstraintName("FK_Product_PackageProduct");
+               .HasConstraintName("FK_Product_PackageProduct").OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

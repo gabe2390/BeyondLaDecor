@@ -15,7 +15,6 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
 
         public override void ConfigureFilter(EntityTypeBuilder<ServiceVendor> builder)
         {
-            throw new System.NotImplementedException();
         }
 
         public override void ConfigureIndexes(EntityTypeBuilder<ServiceVendor> builder)
@@ -35,11 +34,11 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasOne(e => e.Service)
                 .WithMany(e => e.ServiceVendors)
                 .HasForeignKey(e => e.ServiceId)
-                .HasConstraintName("FK_ServiceVendor_Service");
+                .HasConstraintName("FK_ServiceVendor_Service").OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(e => e.Vendor)
               .WithMany(e => e.ServiceVendors)
               .HasForeignKey(e => e.VendorId)
-              .HasConstraintName("FK_ServiceVendor_Vendor");
+              .HasConstraintName("FK_ServiceVendor_Vendor").OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

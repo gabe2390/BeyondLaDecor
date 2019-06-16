@@ -33,15 +33,15 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasMany(e => e.Events)
                 .WithOne(e => e.Package)
                 .HasForeignKey(e => e.PackageId)
-                .HasConstraintName("FK_Package_Event");
+                .HasConstraintName("FK_Package_Event").OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.PackageProducts)
                 .WithOne(e => e.Package)
                 .HasForeignKey(e => e.PackageId)
-                .HasConstraintName("FK_Package_PackageProduct");
+                .HasConstraintName("FK_Package_PackageProduct").OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.PackageServices)
                 .WithOne(e => e.Package)
                 .HasForeignKey(e => e.PackageId)
-                .HasConstraintName("FK_Package_PackageService");
+                .HasConstraintName("FK_Package_PackageService").OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

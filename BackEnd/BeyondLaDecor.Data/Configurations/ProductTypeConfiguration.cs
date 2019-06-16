@@ -33,7 +33,7 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasMany(e => e.Products)
                 .WithOne(e => e.ProductType)
                 .HasForeignKey(e => e.ProductTypeId)
-                .HasConstraintName("FK_Product_ProductType");
+                .HasConstraintName("FK_Product_ProductType").OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

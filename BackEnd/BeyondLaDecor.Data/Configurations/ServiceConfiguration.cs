@@ -1,5 +1,4 @@
-﻿using BeyondLaDecor.Beyond.Data.Configurations;
-using BeyondLaDecor.Data.Models;
+﻿using BeyondLaDecor.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -35,15 +34,15 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasMany(e => e.PackageServices)
                 .WithOne(e => e.Service)
                 .HasForeignKey(e => e.ServiceId)
-                .HasConstraintName("FK_Package_PackageService");
+                .HasConstraintName("FK_Package_PackageService").OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.ServiceVendors)
                 .WithOne(e => e.Service)
                 .HasForeignKey(e => e.ServiceId)
-                .HasConstraintName("FK_ServiceVendor_Service");
+                .HasConstraintName("FK_ServiceVendor_Service").OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(e => e.ServiceType)
                 .WithMany(e => e.Services)
                 .HasForeignKey(e => e.ServiceId)
-                .HasConstraintName("FK_Service_ServiceType");
+                .HasConstraintName("FK_Service_ServiceType").OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

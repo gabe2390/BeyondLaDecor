@@ -74,8 +74,7 @@ namespace BeyondLaDecor.Beyond.Api
             services.AddTransient<IVendorLogic, VendorLogic>();
 
             services.AddTransient(typeof(BeyondDbContext),
-                       (c) => new BeyondDbContextFactory(
-                           Configuration.GetValue<string>(ConfigurationConstants.BeyondLaDecorConnectionString))
+                       (c) => new BeyondDbContextFactory(Configuration.GetValue<string>(ConfigurationConstants.BeyondLaDecorConnectionString))
                        .CreateDbContext(null));
         }
 
