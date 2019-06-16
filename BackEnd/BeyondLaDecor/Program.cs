@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using BeyondLaDecor.Data.Setup;
+﻿using BeyondLaDecor.Data.Setup;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeyondLaDecor.Beyond.Data
 {

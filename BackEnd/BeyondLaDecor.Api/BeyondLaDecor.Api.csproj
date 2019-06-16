@@ -11,6 +11,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BeyondLaDecor.Business\BeyondLaDecor.Business.csproj" />
-    <ProjectReference Include="..\BeyondLaDecor\BeyondLaDecor.Data.csproj" />
   </ItemGroup>
 </Project>

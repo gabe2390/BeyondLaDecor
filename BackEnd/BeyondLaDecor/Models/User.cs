@@ -2,9 +2,10 @@
 
 namespace BeyondLaDecor.Data.Models
 {
-    public class Client
+    public class User : DecorEntity
     {
-        public int ClientId { get; set; }
+        public int UserId { get; set; }
+        public bool IsAdministrator { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -13,5 +14,8 @@ namespace BeyondLaDecor.Data.Models
         public string State { get; set; }
         public string ZipCode { get; set; }
         public ICollection<Event> Events { get; set; }
+        public int? AdminstratorId { get; set; }
+        public User Administrator { get; set; }
+        public ICollection<User> Clients { get; set; }
     }
 }

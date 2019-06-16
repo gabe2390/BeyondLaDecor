@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 
 namespace BeyondLaDecor.Beyond.Api
+
 {
     public class Program
     {

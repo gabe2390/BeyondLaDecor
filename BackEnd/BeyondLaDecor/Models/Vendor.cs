@@ -1,12 +1,13 @@
-﻿namespace BeyondLaDecor.Data.Models
+﻿using System.Collections.Generic;
+
+namespace BeyondLaDecor.Data.Models
 {
-    public class Vendor
+    public class Vendor : DecorEntity
     {
         public int VendorId { get; set; }
         public string Name { get; set; }
-        public int VendorTypeId { get; set; }
-        public VendorType VendorType { get; set; }
-        public int ServiceId { get; set; }
-        public Service Service { get; set; }
+        public int ServiceTypeId { get; set; }
+        public ServiceType ServiceType { get; set; }
+        public ICollection<ServiceVendor> ServiceVendors { get; set; }
     }
 }

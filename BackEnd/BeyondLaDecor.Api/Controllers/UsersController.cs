@@ -2,9 +2,9 @@
 using BeyondLaDecor.Data.Models;
 namespace BeyondLaDecor.Beyond.Api.Controllers
 {
-    internal class ClientsController : BaseController<Client>
+    internal class UsersController : BaseController<User>
     {
-        public ClientsController(IClientLogic clientLogic) : base(clientLogic)
+        public UsersController(IUserLogic userLogic) : base(userLogic)
         {
         }
     }

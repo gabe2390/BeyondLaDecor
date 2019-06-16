@@ -19,13 +19,13 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
 
         public override void ConfigureIndexes(EntityTypeBuilder<Event> builder)
         {
-            builder.HasIndex(e => new { e.PackageId, e.EventTypeId, e.ClientId });
+            builder.HasIndex(e => new { e.PackageId, e.EventTypeId, e.UserId });
         }
 
         public override void ConfigureProperties(EntityTypeBuilder<Event> builder)
         {
             builder.HasKey(e => e.EventId);
-            builder.Property(e => e.ClientId).IsRequired();
+            builder.Property(e => e.UserId).IsRequired();
             builder.Property(e => e.Address).IsRequired();
             builder.Property(e => e.Capacity).IsRequired();
             builder.Property(e => e.Date).IsRequired();
@@ -43,10 +43,10 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
                 .WithMany(e => e.Events)
                 .HasForeignKey(e => e.PackageId)
                 .HasConstraintName("FK_Event_Package");
-            builder.HasOne(e => e.Client)
+            builder.HasOne(e => e.User)
                 .WithMany(e => e.Events)
-                .HasForeignKey(e => e.ClientId)
-                .HasConstraintName("FK_Client_Event");
+                .HasForeignKey(e => e.UserId)
+                .HasConstraintName("FK_User_Event");
         }
     }
 }

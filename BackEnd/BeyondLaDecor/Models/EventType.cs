@@ -2,7 +2,7 @@
 
 namespace BeyondLaDecor.Data.Models
 {
-    public class EventType
+    public class EventType : DecorEntity
     {
         public int EventTypeId { get; set; }
         public string Name { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace BeyondLaDecor.Data.Models
 {
-    public class PackageProduct
+    public class PackageProduct : DecorEntity
     {
         public int PackageProductId { get; set; }
         public int PackageId { get; set; }

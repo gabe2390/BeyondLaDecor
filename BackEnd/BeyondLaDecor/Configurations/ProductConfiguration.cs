@@ -42,6 +42,10 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
                 .WithMany(e => e.Products)
                 .HasForeignKey(e => e.ProductTypeId)
                 .HasConstraintName("FK_Product_ProductType");
+            builder.HasMany(e => e.ProductServiceTypes)
+                .WithOne(e => e.Product)
+                .HasForeignKey(e => e.ProductId)
+                .HasConstraintName("FK_Product_ServiceType");
         }
     }
 }

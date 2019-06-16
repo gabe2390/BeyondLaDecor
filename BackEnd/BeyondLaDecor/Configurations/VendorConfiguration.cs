@@ -1,5 +1,4 @@
-﻿using BeyondLaDecor.Beyond.Data.Configurations;
-using BeyondLaDecor.Data.Models;
+﻿using BeyondLaDecor.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -26,21 +25,20 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
         public override void ConfigureProperties(EntityTypeBuilder<Vendor> builder)
         {
             builder.HasKey(e => e.VendorId);
-            builder.Property(e => e.VendorTypeId).IsRequired();
+            builder.Property(e => e.ServiceTypeId).IsRequired();
             builder.Property(e => e.Name).IsRequired();
-            builder.Property(e => e.ServiceId).IsRequired();
         }
 
         public override void ConfigureRelationships(EntityTypeBuilder<Vendor> builder)
         {
-            builder.HasOne(e => e.Service)
-                .WithMany(e => e.Vendors)
-                .HasForeignKey(e => e.ServiceId)
-                .HasConstraintName("FK_Service_Vendor");
-            builder.HasOne(e => e.VendorType)
+            builder.HasMany(e => e.ServiceVendors)
+                .WithOne(e => e.Vendor)
+                .HasForeignKey(e => e.VendorId)
+                .HasConstraintName("FK_ServiceVendor_Vendor");
+            builder.HasOne(e => e.ServiceType)
               .WithMany(e => e.Vendors)
-              .HasForeignKey(e => e.VendorTypeId)
-              .HasConstraintName("FK_VendorType_Vendor");
+              .HasForeignKey(e => e.ServiceTypeId)
+              .HasConstraintName("FK_Vendor_ServiceType");
         }
     }
 }

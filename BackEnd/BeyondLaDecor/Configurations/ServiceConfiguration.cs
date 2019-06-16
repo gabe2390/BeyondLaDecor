@@ -36,10 +36,10 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
                 .WithOne(e => e.Service)
                 .HasForeignKey(e => e.ServiceId)
                 .HasConstraintName("FK_Package_PackageService");
-            builder.HasMany(e => e.Vendors)
+            builder.HasMany(e => e.ServiceVendors)
                 .WithOne(e => e.Service)
                 .HasForeignKey(e => e.ServiceId)
-                .HasConstraintName("FK_Service_Vendor");
+                .HasConstraintName("FK_ServiceVendor_Service");
             builder.HasOne(e => e.ServiceType)
                 .WithMany(e => e.Services)
                 .HasForeignKey(e => e.ServiceId)
