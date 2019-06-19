@@ -2,7 +2,7 @@
 
 namespace BeyondLaDecor.Data.Models
 {
-    public class Package : DecorEntity
+    public class Package : NegotiableCostEntity
     {
         public int PackageId { get; set; }
         public string Name { get; set; }

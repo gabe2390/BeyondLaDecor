@@ -1,6 +1,8 @@
 ﻿using BeyondLaDecor.Beyond.Data.Configurations;
 using BeyondLaDecor.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace BeyondLaDecor.Beyond.Data
 {
@@ -22,6 +24,7 @@ namespace BeyondLaDecor.Beyond.Data
         public DbSet<PackageProduct> PackageProduct { get; set; }
         public DbSet<PackageService> PackageServices { get; set; }
         public DbSet<ProductServiceType> ProductServiceTypes { get; set; }
+        public DbSet<Task> Tasks { get; set; }
 
         public BeyondDbContext(DbContextOptions<BeyondDbContext> options) : base(options)
         {
@@ -46,7 +49,25 @@ namespace BeyondLaDecor.Beyond.Data
             new PackageProductConfiguration(builder.Entity<PackageProduct>()).Configure();
             new PackageServiceConfiguration(builder.Entity<PackageService>()).Configure();
             new ProductServiceTypeConfiguration(builder.Entity<ProductServiceType>()).Configure();
+            new TaskConfiguration(builder.Entity<Task>()).Configure();
             base.OnModelCreating(builder);
+        }
+
+        public override int SaveChanges()
+        {
+            foreach (var entry in ChangeTracker.Entries().Where(e => (e.State == EntityState.Added || e.State == EntityState.Modified) && e.Properties.Any(p => p.Metadata.Name == "LastUpdatedOn")))
+            {
+                //Temporarily will update CreatedBy and LastUpdatedBy to PersonId but will eventually replace this with method to get the LogonName from Authorization
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property("CreatedOn").CurrentValue = DateTime.UtcNow;
+                }
+                else
+                {
+                    entry.Property("LastUpdatedOn").CurrentValue = DateTime.UtcNow;
+                }
+            }
+            return base.SaveChanges();
         }
     }
 }

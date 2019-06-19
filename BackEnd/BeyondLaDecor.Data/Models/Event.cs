@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BeyondLaDecor.Data.Models
 {
@@ -15,7 +16,7 @@ namespace BeyondLaDecor.Data.Models
         public User User { get; set; }
         public int UserId { get; set; }
         public int Capacity { get; set; }
-        public int TableCount { get; set; }
-
+        public int? TableCount { get; set; }
+        public ICollection<Task> Tasks { get; set; }
     }
 }

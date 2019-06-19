@@ -1,6 +1,6 @@
 ﻿namespace BeyondLaDecor.Data.Models
 {
-    public class DecorEntity
+    public abstract class DecorEntity
     {
         public string DecorId { get; set; }
     }
