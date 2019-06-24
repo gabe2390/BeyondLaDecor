@@ -25,6 +25,8 @@ namespace BeyondLaDecor.Beyond.Data
         public DbSet<PackageService> PackageServices { get; set; }
         public DbSet<ProductServiceType> ProductServiceTypes { get; set; }
         public DbSet<Task> Tasks { get; set; }
+        public DbSet<Setting> Settings { get; set; }
+        public DbSet<UserSetting> UserSettings { get; set; }
 
         public BeyondDbContext(DbContextOptions<BeyondDbContext> options) : base(options)
         {

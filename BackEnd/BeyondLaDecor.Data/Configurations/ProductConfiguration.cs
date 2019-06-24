@@ -28,7 +28,6 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.Property(e => e.Name).IsRequired();
             builder.Property(e => e.ProductTypeId).IsRequired();
             builder.Property(e => e.Description).IsRequired();
-            builder.Property(e => e.Price).IsRequired();
             builder.Property(e => e.ThirdParty).IsRequired();
         }
 

@@ -9,74 +9,102 @@ namespace BeyondLaDecor.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "EventTypes",
+                name: "EventType",
                 columns: table => new
                 {
                     EventTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventTypes", x => x.EventTypeId);
+                    table.PrimaryKey("PK_EventType", x => x.EventTypeId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Packages",
+                name: "Package",
                 columns: table => new
                 {
                     PackageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
+                    Cost = table.Column<decimal>(nullable: true),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Packages", x => x.PackageId);
+                    table.PrimaryKey("PK_Package", x => x.PackageId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductTypes",
+                name: "ProductType",
                 columns: table => new
                 {
                     ProductTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductTypes", x => x.ProductTypeId);
+                    table.PrimaryKey("PK_ProductType", x => x.ProductTypeId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ServiceTypes",
+                name: "ServiceType",
                 columns: table => new
                 {
                     ServiceTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: false),
                     ParentServiceTypeId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ServiceTypes", x => x.ServiceTypeId);
+                    table.PrimaryKey("PK_ServiceType", x => x.ServiceTypeId);
                     table.ForeignKey(
                         name: "FK_Parent_ServiceType",
                         column: x => x.ParentServiceTypeId,
-                        principalTable: "ServiceTypes",
+                        principalTable: "ServiceType",
                         principalColumn: "ServiceTypeId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Settings",
+                columns: table => new
+                {
+                    SettingId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
+                    DecorId = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    SettingType = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Settings", x => x.SettingId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
                     IsAdministrator = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
@@ -90,94 +118,103 @@ namespace BeyondLaDecor.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("PK_User", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_Admin_Client",
                         column: x => x.AdminstratorId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Product",
                 columns: table => new
                 {
                     ProductId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
+                    Cost = table.Column<decimal>(nullable: true),
                     ProductTypeId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: false),
                     ThirdParty = table.Column<bool>(nullable: false),
-                    Price = table.Column<decimal>(nullable: false),
                     ServiceTypeId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.ProductId);
+                    table.PrimaryKey("PK_Product", x => x.ProductId);
                     table.ForeignKey(
                         name: "FK_Product_ProductType",
                         column: x => x.ProductTypeId,
-                        principalTable: "ProductTypes",
+                        principalTable: "ProductType",
                         principalColumn: "ProductTypeId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Product_ServiceType",
                         column: x => x.ServiceTypeId,
-                        principalTable: "ServiceTypes",
+                        principalTable: "ServiceType",
                         principalColumn: "ServiceTypeId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Services",
+                name: "Service",
                 columns: table => new
                 {
                     ServiceId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
+                    Cost = table.Column<decimal>(nullable: true),
                     ServiceTypeId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Services", x => x.ServiceId);
+                    table.PrimaryKey("PK_Service", x => x.ServiceId);
                     table.ForeignKey(
                         name: "FK_Service_ServiceType",
                         column: x => x.ServiceTypeId,
-                        principalTable: "ServiceTypes",
+                        principalTable: "ServiceType",
                         principalColumn: "ServiceTypeId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vendors",
+                name: "Vendor",
                 columns: table => new
                 {
                     VendorId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: false),
                     ServiceTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vendors", x => x.VendorId);
+                    table.PrimaryKey("PK_Vendor", x => x.VendorId);
                     table.ForeignKey(
                         name: "FK_Vendor_ServiceType",
                         column: x => x.ServiceTypeId,
-                        principalTable: "ServiceTypes",
+                        principalTable: "ServiceType",
                         principalColumn: "ServiceTypeId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Events",
+                name: "Event",
                 columns: table => new
                 {
                     EventId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
                     EventTypeId = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
@@ -186,27 +223,61 @@ namespace BeyondLaDecor.Data.Migrations
                     PackageId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     Capacity = table.Column<int>(nullable: false),
-                    TableCount = table.Column<int>(nullable: false)
+                    TableCount = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Events", x => x.EventId);
+                    table.PrimaryKey("PK_Event", x => x.EventId);
                     table.ForeignKey(
                         name: "FK_Event_EventType",
                         column: x => x.EventTypeId,
-                        principalTable: "EventTypes",
+                        principalTable: "EventType",
                         principalColumn: "EventTypeId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Package_Event",
                         column: x => x.PackageId,
-                        principalTable: "Packages",
+                        principalTable: "Package",
                         principalColumn: "PackageId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_User_Event",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserSettings",
+                columns: table => new
+                {
+                    UserSettingId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: false),
+                    SettingId = table.Column<int>(nullable: false),
+                    Enabled = table.Column<bool>(nullable: false),
+                    ClientId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserSettings", x => x.UserSettingId);
+                    table.ForeignKey(
+                        name: "FK_UserSettings_User_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "User",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserSettings_Settings_SettingId",
+                        column: x => x.SettingId,
+                        principalTable: "Settings",
+                        principalColumn: "SettingId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Client_UserSetting",
+                        column: x => x.UserId,
+                        principalTable: "User",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -217,6 +288,8 @@ namespace BeyondLaDecor.Data.Migrations
                 {
                     PackageProductId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
                     PackageId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false)
@@ -227,117 +300,156 @@ namespace BeyondLaDecor.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Package_PackageProduct",
                         column: x => x.PackageId,
-                        principalTable: "Packages",
+                        principalTable: "Package",
                         principalColumn: "PackageId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Product_PackageProduct",
                         column: x => x.ProductId,
-                        principalTable: "Products",
+                        principalTable: "Product",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductServiceTypes",
+                name: "ProductServiceType",
                 columns: table => new
                 {
                     ProductServiceTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
                     ProductId = table.Column<int>(nullable: false),
                     ServiceTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductServiceTypes", x => x.ProductServiceTypeId);
+                    table.PrimaryKey("PK_ProductServiceType", x => x.ProductServiceTypeId);
                     table.ForeignKey(
                         name: "FK_Product_ProductServiceTypeId",
                         column: x => x.ProductId,
-                        principalTable: "Products",
+                        principalTable: "Product",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ServiceType_ProductServiceTypeId",
                         column: x => x.ServiceTypeId,
-                        principalTable: "ServiceTypes",
+                        principalTable: "ServiceType",
                         principalColumn: "ServiceTypeId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PackageServices",
+                name: "PackageService",
                 columns: table => new
                 {
                     PackageServiceId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
                     PackageId = table.Column<int>(nullable: false),
                     ServiceId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PackageServices", x => x.PackageServiceId);
+                    table.PrimaryKey("PK_PackageService", x => x.PackageServiceId);
                     table.ForeignKey(
                         name: "FK_Package_PackageService",
                         column: x => x.PackageId,
-                        principalTable: "Packages",
+                        principalTable: "Package",
                         principalColumn: "PackageId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Service_PackageService",
                         column: x => x.ServiceId,
-                        principalTable: "Services",
+                        principalTable: "Service",
                         principalColumn: "ServiceId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ServiceVendors",
+                name: "ServiceVendor",
                 columns: table => new
                 {
                     ServiceVendorId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
                     ServiceId = table.Column<int>(nullable: false),
                     VendorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ServiceVendors", x => x.ServiceVendorId);
+                    table.PrimaryKey("PK_ServiceVendor", x => x.ServiceVendorId);
                     table.ForeignKey(
                         name: "FK_ServiceVendor_Service",
                         column: x => x.ServiceId,
-                        principalTable: "Services",
+                        principalTable: "Service",
                         principalColumn: "ServiceId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ServiceVendor_Vendor",
                         column: x => x.VendorId,
-                        principalTable: "Vendors",
+                        principalTable: "Vendor",
                         principalColumn: "VendorId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Task",
+                columns: table => new
+                {
+                    TaskId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    Completed = table.Column<bool>(nullable: false),
+                    EventId = table.Column<int>(nullable: true),
+                    ServiceId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Task", x => x.TaskId);
+                    table.ForeignKey(
+                        name: "FK_Event_Task",
+                        column: x => x.EventId,
+                        principalTable: "Event",
+                        principalColumn: "EventId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Service_Task",
+                        column: x => x.ServiceId,
+                        principalTable: "Service",
+                        principalColumn: "ServiceId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Events_EventTypeId",
-                table: "Events",
+                name: "IX_Event_EventTypeId",
+                table: "Event",
                 column: "EventTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_UserId",
-                table: "Events",
+                name: "IX_Event_UserId",
+                table: "Event",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_PackageId_EventTypeId_UserId",
-                table: "Events",
+                name: "IX_Event_PackageId_EventTypeId_UserId",
+                table: "Event",
                 columns: new[] { "PackageId", "EventTypeId", "UserId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EventTypes_EventTypeId_Name",
-                table: "EventTypes",
+                name: "IX_EventType_EventTypeId_Name",
+                table: "EventType",
                 columns: new[] { "EventTypeId", "Name" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Package_Name",
+                table: "Package",
+                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PackageProduct_ProductId",
@@ -350,136 +462,170 @@ namespace BeyondLaDecor.Data.Migrations
                 columns: new[] { "PackageId", "ProductId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Packages_Name",
-                table: "Packages",
-                column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PackageServices_ServiceId",
-                table: "PackageServices",
+                name: "IX_PackageService_ServiceId",
+                table: "PackageService",
                 column: "ServiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PackageServices_PackageId_ServiceId",
-                table: "PackageServices",
+                name: "IX_PackageService_PackageId_ServiceId",
+                table: "PackageService",
                 columns: new[] { "PackageId", "ServiceId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_ProductTypeId",
-                table: "Products",
+                name: "IX_Product_ProductTypeId",
+                table: "Product",
                 column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_ServiceTypeId",
-                table: "Products",
+                name: "IX_Product_ServiceTypeId",
+                table: "Product",
                 column: "ServiceTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_Name_ProductTypeId",
-                table: "Products",
+                name: "IX_Product_Name_ProductTypeId",
+                table: "Product",
                 columns: new[] { "Name", "ProductTypeId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductServiceTypes_ProductId",
-                table: "ProductServiceTypes",
+                name: "IX_ProductServiceType_ProductId",
+                table: "ProductServiceType",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductServiceTypes_ServiceTypeId_ProductId",
-                table: "ProductServiceTypes",
+                name: "IX_ProductServiceType_ServiceTypeId_ProductId",
+                table: "ProductServiceType",
                 columns: new[] { "ServiceTypeId", "ProductId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductTypes_Name",
-                table: "ProductTypes",
+                name: "IX_ProductType_Name",
+                table: "ProductType",
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Services_ServiceTypeId_Name",
-                table: "Services",
+                name: "IX_Service_ServiceTypeId_Name",
+                table: "Service",
                 columns: new[] { "ServiceTypeId", "Name" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ServiceTypes_Name",
-                table: "ServiceTypes",
+                name: "IX_ServiceType_Name",
+                table: "ServiceType",
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ServiceTypes_ParentServiceTypeId",
-                table: "ServiceTypes",
+                name: "IX_ServiceType_ParentServiceTypeId",
+                table: "ServiceType",
                 column: "ParentServiceTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ServiceVendors_VendorId",
-                table: "ServiceVendors",
+                name: "IX_ServiceVendor_VendorId",
+                table: "ServiceVendor",
                 column: "VendorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ServiceVendors_ServiceId_VendorId",
-                table: "ServiceVendors",
+                name: "IX_ServiceVendor_ServiceId_VendorId",
+                table: "ServiceVendor",
                 columns: new[] { "ServiceId", "VendorId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_AdminstratorId",
-                table: "Users",
+                name: "IX_Task_EventId",
+                table: "Task",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Task_ServiceId",
+                table: "Task",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Task_Name_ServiceId_EventId",
+                table: "Task",
+                columns: new[] { "Name", "ServiceId", "EventId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_AdminstratorId",
+                table: "User",
                 column: "AdminstratorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
+                name: "IX_User_Email",
+                table: "User",
                 column: "Email");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vendors_Name",
-                table: "Vendors",
+                name: "IX_UserSettings_ClientId",
+                table: "UserSettings",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSettings_SettingId",
+                table: "UserSettings",
+                column: "SettingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSettings_UserId",
+                table: "UserSettings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vendor_Name",
+                table: "Vendor",
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vendors_ServiceTypeId",
-                table: "Vendors",
+                name: "IX_Vendor_ServiceTypeId",
+                table: "Vendor",
                 column: "ServiceTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Events");
-
-            migrationBuilder.DropTable(
                 name: "PackageProduct");
 
             migrationBuilder.DropTable(
-                name: "PackageServices");
+                name: "PackageService");
 
             migrationBuilder.DropTable(
-                name: "ProductServiceTypes");
+                name: "ProductServiceType");
 
             migrationBuilder.DropTable(
-                name: "ServiceVendors");
+                name: "ServiceVendor");
 
             migrationBuilder.DropTable(
-                name: "EventTypes");
+                name: "Task");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "UserSettings");
 
             migrationBuilder.DropTable(
-                name: "Packages");
+                name: "Product");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Vendor");
 
             migrationBuilder.DropTable(
-                name: "Services");
+                name: "Event");
 
             migrationBuilder.DropTable(
-                name: "Vendors");
+                name: "Service");
 
             migrationBuilder.DropTable(
-                name: "ProductTypes");
+                name: "Settings");
 
             migrationBuilder.DropTable(
-                name: "ServiceTypes");
+                name: "ProductType");
+
+            migrationBuilder.DropTable(
+                name: "EventType");
+
+            migrationBuilder.DropTable(
+                name: "Package");
+
+            migrationBuilder.DropTable(
+                name: "User");
+
+            migrationBuilder.DropTable(
+                name: "ServiceType");
         }
     }
 }

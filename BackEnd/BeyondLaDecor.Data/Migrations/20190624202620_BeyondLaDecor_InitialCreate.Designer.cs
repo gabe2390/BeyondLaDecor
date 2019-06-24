@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeyondLaDecor.Data.Migrations
 {
     [DbContext(typeof(BeyondDbContext))]
-    [Migration("20190616015041_BeyondLaDecor_InitialCreate")]
+    [Migration("20190624202620_BeyondLaDecor_InitialCreate")]
     partial class BeyondLaDecor_InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,18 +32,22 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.Property<int>("Capacity");
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("DecorId");
 
                     b.Property<int>("EventTypeId");
 
+                    b.Property<DateTime>("LastUpdatedOn");
+
                     b.Property<string>("LocationName");
 
                     b.Property<int?>("PackageId")
                         .IsRequired();
 
-                    b.Property<int>("TableCount");
+                    b.Property<int?>("TableCount");
 
                     b.Property<int>("UserId");
 
@@ -55,7 +59,7 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("PackageId", "EventTypeId", "UserId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Event");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.EventType", b =>
@@ -64,7 +68,11 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -73,7 +81,7 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("EventTypeId", "Name");
 
-                    b.ToTable("EventTypes");
+                    b.ToTable("EventType");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.Package", b =>
@@ -82,7 +90,13 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<decimal?>("Cost");
+
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -91,7 +105,7 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Packages");
+                    b.ToTable("Package");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.PackageProduct", b =>
@@ -100,7 +114,11 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<int>("PackageId");
 
@@ -121,7 +139,11 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<int>("PackageId");
 
@@ -133,7 +155,7 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("PackageId", "ServiceId");
 
-                    b.ToTable("PackageServices");
+                    b.ToTable("PackageService");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.Product", b =>
@@ -142,15 +164,19 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<decimal?>("Cost");
+
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
 
                     b.Property<string>("Description")
                         .IsRequired();
 
+                    b.Property<DateTime>("LastUpdatedOn");
+
                     b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<decimal>("Price");
 
                     b.Property<int>("ProductTypeId");
 
@@ -166,7 +192,7 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("Name", "ProductTypeId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.ProductServiceType", b =>
@@ -175,7 +201,11 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<int>("ProductId");
 
@@ -187,7 +217,7 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("ServiceTypeId", "ProductId");
 
-                    b.ToTable("ProductServiceTypes");
+                    b.ToTable("ProductServiceType");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.ProductType", b =>
@@ -196,7 +226,11 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -205,7 +239,7 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("ProductTypes");
+                    b.ToTable("ProductType");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.Service", b =>
@@ -214,7 +248,13 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<decimal?>("Cost");
+
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -225,7 +265,7 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("ServiceTypeId", "Name");
 
-                    b.ToTable("Services");
+                    b.ToTable("Service");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.ServiceType", b =>
@@ -234,7 +274,11 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -247,7 +291,7 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("ParentServiceTypeId");
 
-                    b.ToTable("ServiceTypes");
+                    b.ToTable("ServiceType");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.ServiceVendor", b =>
@@ -256,7 +300,11 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<int>("ServiceId");
 
@@ -268,7 +316,54 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("ServiceId", "VendorId");
 
-                    b.ToTable("ServiceVendors");
+                    b.ToTable("ServiceVendor");
+                });
+
+            modelBuilder.Entity("BeyondLaDecor.Data.Models.Setting", b =>
+                {
+                    b.Property<int>("SettingId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("SettingType");
+
+                    b.HasKey("SettingId");
+
+                    b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("BeyondLaDecor.Data.Models.Task", b =>
+                {
+                    b.Property<int>("TaskId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Completed");
+
+                    b.Property<int?>("EventId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int?>("ServiceId");
+
+                    b.HasKey("TaskId");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("Name", "ServiceId", "EventId");
+
+                    b.ToTable("Task");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.User", b =>
@@ -285,6 +380,8 @@ namespace BeyondLaDecor.Data.Migrations
                     b.Property<string>("City")
                         .IsRequired();
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
 
                     b.Property<string>("Email")
@@ -298,6 +395,8 @@ namespace BeyondLaDecor.Data.Migrations
                     b.Property<string>("LastName")
                         .IsRequired();
 
+                    b.Property<DateTime>("LastUpdatedOn");
+
                     b.Property<string>("State")
                         .IsRequired();
 
@@ -310,7 +409,32 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("Email");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("BeyondLaDecor.Data.Models.UserSetting", b =>
+                {
+                    b.Property<int>("UserSettingId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ClientId");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<int>("SettingId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("UserSettingId");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("SettingId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserSettings");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.Vendor", b =>
@@ -319,7 +443,11 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("DecorId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -332,7 +460,7 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("ServiceTypeId");
 
-                    b.ToTable("Vendors");
+                    b.ToTable("Vendor");
                 });
 
             modelBuilder.Entity("BeyondLaDecor.Data.Models.Event", b =>
@@ -449,12 +577,45 @@ namespace BeyondLaDecor.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("BeyondLaDecor.Data.Models.Task", b =>
+                {
+                    b.HasOne("BeyondLaDecor.Data.Models.Event", "Event")
+                        .WithMany("Tasks")
+                        .HasForeignKey("EventId")
+                        .HasConstraintName("FK_Event_Task")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BeyondLaDecor.Data.Models.Service", "Service")
+                        .WithMany("Tasks")
+                        .HasForeignKey("ServiceId")
+                        .HasConstraintName("FK_Service_Task")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("BeyondLaDecor.Data.Models.User", b =>
                 {
                     b.HasOne("BeyondLaDecor.Data.Models.User", "Administrator")
                         .WithMany("Clients")
                         .HasForeignKey("AdminstratorId")
                         .HasConstraintName("FK_Admin_Client")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("BeyondLaDecor.Data.Models.UserSetting", b =>
+                {
+                    b.HasOne("BeyondLaDecor.Data.Models.User", "Client")
+                        .WithMany("ClientSpecificUserSettings")
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("BeyondLaDecor.Data.Models.Setting", "Setting")
+                        .WithMany("UserSettings")
+                        .HasForeignKey("SettingId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("BeyondLaDecor.Data.Models.User", "User")
+                        .WithMany("UserSettings")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_Client_UserSetting")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
