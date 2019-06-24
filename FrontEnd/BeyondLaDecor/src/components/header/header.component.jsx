@@ -15,9 +15,10 @@ export default class Header extends React.Component {
         return (
             <div className="header-container">
                 <div className="menu-container">
-                    <Menu></Menu>                    
+                    <Menu></Menu>  
+                    Menu Holder                  
                 </div>
-                <div className="logo-container"></div>
+                <div className="logo-container">Logo</div>
             </div>
         );
     }

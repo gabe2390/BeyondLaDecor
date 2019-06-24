@@ -20,6 +20,18 @@ namespace BeyondLaDecor.Data.Setup
             context.EventTypes.Add(CreateEventType("Social Event"));
             context.EventTypes.Add(CreateEventType("Private Event"));
             context.EventTypes.Add(CreateEventType("Bridal Shower"));
+            context.EventTypes.Add(CreateEventType("Proposal"));
+            context.EventTypes.Add(CreateEventType("Sweet Sixteen"));
+            context.EventTypes.Add(CreateEventType("Surprise Party"));
+            context.EventTypes.Add(CreateEventType("Vow Renewal"));
+            context.EventTypes.Add(CreateEventType("Gender Reveal"));
+            context.EventTypes.Add(CreateEventType("Graduation Party"));
+            context.EventTypes.Add(CreateEventType("Welcome Home Party"));
+            context.EventTypes.Add(CreateEventType("Banquet"));
+            context.EventTypes.Add(CreateEventType("Quinceanera"));
+            context.EventTypes.Add(CreateEventType("Promotion"));
+            context.EventTypes.Add(CreateEventType("Retirement"));
+            context.EventTypes.Add(CreateEventType("Other"));
         }
 
         private EventType CreateEventType(string name)
@@ -28,8 +40,8 @@ namespace BeyondLaDecor.Data.Setup
             {
                 Name = name
             };
-        }
-        private void SeedDefaultProductTypes(BeyondDbContext context)
+            }
+            private void SeedDefaultProductTypes(BeyondDbContext context)
         {
             context.ProductTypes.Add(CreateProductType("Center Piece"));
             context.ProductTypes.Add(CreateProductType("Back Drop"));

@@ -17,5 +17,7 @@ namespace BeyondLaDecor.Data.Models
         public int? AdminstratorId { get; set; }
         public User Administrator { get; set; }
         public ICollection<User> Clients { get; set; }
+        public ICollection<UserSetting> UserSettings { get; set; }
+        public ICollection<UserSetting> ClientSpecificUserSettings { get; set; }
     }
 }
