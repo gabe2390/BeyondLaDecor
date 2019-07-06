@@ -1,9 +1,9 @@
 import { ProductType } from "./product-type.model";
 
 export interface Product {
-    ProductId : number,
-    Name :string,
-    Descritption :string,
-    ThirdParty : boolean,
-    ProductType : ProductType
+    productId : number,
+    name :string,
+    descritption :string,
+    thirdParty : boolean,
+    productType : ProductType
 }

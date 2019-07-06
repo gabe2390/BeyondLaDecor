@@ -75,7 +75,6 @@ namespace BeyondLaDecor.Beyond.Data
         {
             foreach (var entry in ChangeTracker.Entries().Where(e => (e.State == EntityState.Added || e.State == EntityState.Modified) && e.Properties.Any(p => p.Metadata.Name == "LastUpdatedOn")))
             {
-                //Temporarily will update CreatedBy and LastUpdatedBy to PersonId but will eventually replace this with method to get the LogonName from Authorization
                 if (entry.State == EntityState.Added)
                 {
                     entry.Property("CreatedOn").CurrentValue = DateTime.UtcNow;

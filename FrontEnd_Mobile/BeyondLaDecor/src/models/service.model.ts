@@ -1,9 +1,9 @@
 import { ServiceType } from "./service-type.model";
 
 export interface Service {
-    ServiceId : number,
-    Name :string,
-    Description :string,
-    ThirdParty : boolean,
-    ServiceType : ServiceType
+    serviceId : number,
+    name :string,
+    description :string,
+    thirdParty : boolean,
+    serviceType : ServiceType
 }

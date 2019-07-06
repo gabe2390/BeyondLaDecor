@@ -4,16 +4,18 @@ import { Home } from './src/views/home.component';
 import { Login } from './src/views/login.component';
 import { Registration } from './src/views/registration.component';
 import { ButtonGroup } from 'react-native-elements';
+import { createStore } from 'redux';
 export interface AppState {
   loggedIn?: boolean,
   loginIndex: number
 }
 export default class App extends React.Component<{}, AppState> {
+
   private buttons: string[] = ["Log In", "Register"];
   constructor(props: {}) {
     super(props);
     this.state = {
-      loginIndex: 0
+      loginIndex: 0 
     };
   }
   render() {

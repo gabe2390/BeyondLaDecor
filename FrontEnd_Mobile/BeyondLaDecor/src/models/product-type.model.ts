@@ -1,4 +1,4 @@
 export interface ProductType {
-    ProductTypeId: number,
-    Name: string
+    productTypeId: number,
+    name: string
 }

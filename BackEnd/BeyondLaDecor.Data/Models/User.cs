@@ -11,7 +11,6 @@ namespace BeyondLaDecor.Beyond.Data.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         [DataType(DataType.Password)]
-        public string Password { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }

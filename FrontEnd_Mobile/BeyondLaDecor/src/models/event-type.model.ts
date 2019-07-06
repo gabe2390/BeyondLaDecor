@@ -1,4 +1,4 @@
 export interface EventType {
-    EventTypeId: number,
-    Name: string
+    eventTypeId: number,
+    name: string
 }
