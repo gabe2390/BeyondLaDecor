@@ -1,8 +1,8 @@
 ﻿using BeyondLaDecor.Beyond.Business;
-using BeyondLaDecor.Data.Models;
+using BeyondLaDecor.Beyond.Data.Models;
 namespace BeyondLaDecor.Beyond.Api.Controllers
 {
-    internal class EventsController : BaseController<Event>
+    public class EventsController : BaseController<Event>
     {
         public EventsController(IEventLogic eventLogic) : base(eventLogic)
         {

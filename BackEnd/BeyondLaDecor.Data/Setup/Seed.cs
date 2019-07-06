@@ -1,5 +1,5 @@
 ﻿using BeyondLaDecor.Beyond.Data;
-using BeyondLaDecor.Data.Models;
+using BeyondLaDecor.Beyond.Data.Models;
 
 namespace BeyondLaDecor.Data.Setup
 {
@@ -7,8 +7,8 @@ namespace BeyondLaDecor.Data.Setup
     {
         public void SeedData(BeyondDbContext context)
         {
-            SeedDefaultServiceTypes(context);
             SeedDefaultProductTypes(context);
+            SeedDefaultServiceTypes(context);
             SeedDefaultEventTypes(context);
         }
 
@@ -32,6 +32,7 @@ namespace BeyondLaDecor.Data.Setup
             context.EventTypes.Add(CreateEventType("Promotion"));
             context.EventTypes.Add(CreateEventType("Retirement"));
             context.EventTypes.Add(CreateEventType("Other"));
+            context.SaveChanges();
         }
 
         private EventType CreateEventType(string name)
@@ -40,14 +41,16 @@ namespace BeyondLaDecor.Data.Setup
             {
                 Name = name
             };
-            }
-            private void SeedDefaultProductTypes(BeyondDbContext context)
+        }
+
+        private void SeedDefaultProductTypes(BeyondDbContext context)
         {
             context.ProductTypes.Add(CreateProductType("Center Piece"));
             context.ProductTypes.Add(CreateProductType("Back Drop"));
             context.ProductTypes.Add(CreateProductType("Flower"));
             context.ProductTypes.Add(CreateProductType("Napkin"));
             context.ProductTypes.Add(CreateProductType("Decorative"));
+            context.SaveChanges();
         }
 
         private ProductType CreateProductType(string name)

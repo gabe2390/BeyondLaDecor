@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BeyondLaDecor.Data.Models
+namespace BeyondLaDecor.Beyond.Data.Models
 {
     public class ProductType : DecorEntity
     {

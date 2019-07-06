@@ -1,4 +1,4 @@
-﻿namespace BeyondLaDecor.Data.Models
+﻿namespace BeyondLaDecor.Beyond.Data.Models
 {
     public enum SettingType
     {

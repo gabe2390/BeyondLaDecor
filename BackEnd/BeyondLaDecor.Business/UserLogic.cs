@@ -1,5 +1,5 @@
 ﻿using BeyondLaDecor.Beyond.Data.Repositories;
-using BeyondLaDecor.Data.Models;
+using BeyondLaDecor.Beyond.Data.Models;
 
 namespace BeyondLaDecor.Beyond.Business
 {
@@ -8,7 +8,7 @@ namespace BeyondLaDecor.Beyond.Business
     }
     public class UserLogic : BusinessLogicBase<User>, IUserLogic
     {
-        protected UserLogic(IUserRepository repository) : base(repository)
+        public UserLogic(IUserRepository repository) : base(repository)
         {
         }
     }

@@ -1,8 +1,8 @@
 ﻿using BeyondLaDecor.Beyond.Business;
-using BeyondLaDecor.Data.Models;
+using BeyondLaDecor.Beyond.Data.Models;
 namespace BeyondLaDecor.Beyond.Api.Controllers
 {
-    internal class PackageServicesController : BaseController<PackageService>
+    public class PackageServicesController : BaseController<PackageService>
     {
         public PackageServicesController(IPackageServiceLogic packageServiceLogic) : base(packageServiceLogic)
         {

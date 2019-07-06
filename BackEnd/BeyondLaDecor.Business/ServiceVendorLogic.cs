@@ -1,5 +1,5 @@
 ﻿using BeyondLaDecor.Beyond.Data.Repositories;
-using BeyondLaDecor.Data.Models;
+using BeyondLaDecor.Beyond.Data.Models;
 
 namespace BeyondLaDecor.Beyond.Business
 {
@@ -8,7 +8,7 @@ namespace BeyondLaDecor.Beyond.Business
     }
     public class ServiceVendorLogic : BusinessLogicBase<ServiceVendor>, IServiceVendorLogic
     {
-        protected ServiceVendorLogic(IServiceVendorRepository repository) : base(repository)
+        public ServiceVendorLogic(IServiceVendorRepository repository) : base(repository)
         {
         }
     }

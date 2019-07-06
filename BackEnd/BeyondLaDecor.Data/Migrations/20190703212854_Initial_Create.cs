@@ -4,10 +4,52 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BeyondLaDecor.Data.Migrations
 {
-    public partial class BeyondLaDecor_InitialCreate : Migration
+    public partial class Initial_Create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: false),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    DecorId = table.Column<string>(nullable: true),
+                    IsAdministrator = table.Column<bool>(nullable: false),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: false),
+                    State = table.Column<string>(nullable: false),
+                    ZipCode = table.Column<string>(nullable: false),
+                    AdminstratorId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Client_Admin",
+                        column: x => x.AdminstratorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateTable(
                 name: "EventType",
                 columns: table => new
@@ -81,7 +123,7 @@ namespace BeyondLaDecor.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Settings",
+                name: "Setting",
                 columns: table => new
                 {
                     SettingId = table.Column<int>(nullable: false)
@@ -89,41 +131,113 @@ namespace BeyondLaDecor.Data.Migrations
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     SettingType = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Settings", x => x.SettingId);
+                    table.PrimaryKey("PK_Setting", x => x.SettingId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "AspNetUserClaims",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
+                    ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Event",
+                columns: table => new
+                {
+                    EventId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     DecorId = table.Column<string>(nullable: true),
-                    IsAdministrator = table.Column<bool>(nullable: false),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
+                    EventTypeId = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    LocationName = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: false),
-                    City = table.Column<string>(nullable: false),
-                    State = table.Column<string>(nullable: false),
-                    ZipCode = table.Column<string>(nullable: false),
-                    AdminstratorId = table.Column<int>(nullable: true)
+                    PackageId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
+                    Capacity = table.Column<int>(nullable: false),
+                    TableCount = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.UserId);
+                    table.PrimaryKey("PK_Event", x => x.EventId);
                     table.ForeignKey(
-                        name: "FK_Admin_Client",
-                        column: x => x.AdminstratorId,
-                        principalTable: "User",
-                        principalColumn: "UserId",
+                        name: "FK_Event_EventType",
+                        column: x => x.EventTypeId,
+                        principalTable: "EventType",
+                        principalColumn: "EventTypeId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Package_Event",
+                        column: x => x.PackageId,
+                        principalTable: "Package",
+                        principalColumn: "PackageId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_User_Event",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -208,48 +322,7 @@ namespace BeyondLaDecor.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Event",
-                columns: table => new
-                {
-                    EventId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
-                    DecorId = table.Column<string>(nullable: true),
-                    EventTypeId = table.Column<int>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    LocationName = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: false),
-                    PackageId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    Capacity = table.Column<int>(nullable: false),
-                    TableCount = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Event", x => x.EventId);
-                    table.ForeignKey(
-                        name: "FK_Event_EventType",
-                        column: x => x.EventTypeId,
-                        principalTable: "EventType",
-                        principalColumn: "EventTypeId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Package_Event",
-                        column: x => x.PackageId,
-                        principalTable: "Package",
-                        principalColumn: "PackageId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_User_Event",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserSettings",
+                name: "UserSetting",
                 columns: table => new
                 {
                     UserSettingId = table.Column<int>(nullable: false)
@@ -261,24 +334,24 @@ namespace BeyondLaDecor.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserSettings", x => x.UserSettingId);
-                    table.ForeignKey(
-                        name: "FK_UserSettings_User_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "User",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserSettings_Settings_SettingId",
-                        column: x => x.SettingId,
-                        principalTable: "Settings",
-                        principalColumn: "SettingId",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_UserSetting", x => x.UserSettingId);
                     table.ForeignKey(
                         name: "FK_Client_UserSetting",
+                        column: x => x.ClientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserSetting_Setting",
+                        column: x => x.SettingId,
+                        principalTable: "Setting",
+                        principalColumn: "SettingId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserSetting_User",
                         column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "UserId",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -370,6 +443,37 @@ namespace BeyondLaDecor.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Task",
+                columns: table => new
+                {
+                    TaskId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
+                    DecorId = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Completed = table.Column<bool>(nullable: false),
+                    EventId = table.Column<int>(nullable: true),
+                    ServiceId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Task", x => x.TaskId);
+                    table.ForeignKey(
+                        name: "FK_Event_Task",
+                        column: x => x.EventId,
+                        principalTable: "Event",
+                        principalColumn: "EventId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Service_Task",
+                        column: x => x.ServiceId,
+                        principalTable: "Service",
+                        principalColumn: "ServiceId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ServiceVendor",
                 columns: table => new
                 {
@@ -398,33 +502,37 @@ namespace BeyondLaDecor.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Task",
-                columns: table => new
-                {
-                    TaskId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false),
-                    Completed = table.Column<bool>(nullable: false),
-                    EventId = table.Column<int>(nullable: true),
-                    ServiceId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Task", x => x.TaskId);
-                    table.ForeignKey(
-                        name: "FK_Event_Task",
-                        column: x => x.EventId,
-                        principalTable: "Event",
-                        principalColumn: "EventId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Service_Task",
-                        column: x => x.ServiceId,
-                        principalTable: "Service",
-                        principalColumn: "ServiceId",
-                        onDelete: ReferentialAction.Restrict);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_AdminstratorId",
+                table: "AspNetUsers",
+                column: "AdminstratorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_Email",
+                table: "AspNetUsers",
+                column: "Email");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Event_EventTypeId",
@@ -527,6 +635,11 @@ namespace BeyondLaDecor.Data.Migrations
                 columns: new[] { "ServiceId", "VendorId" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Setting_Name",
+                table: "Setting",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Task_EventId",
                 table: "Task",
                 column: "EventId");
@@ -542,29 +655,19 @@ namespace BeyondLaDecor.Data.Migrations
                 columns: new[] { "Name", "ServiceId", "EventId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_AdminstratorId",
-                table: "User",
-                column: "AdminstratorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_Email",
-                table: "User",
-                column: "Email");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserSettings_ClientId",
-                table: "UserSettings",
+                name: "IX_UserSetting_ClientId",
+                table: "UserSetting",
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSettings_SettingId",
-                table: "UserSettings",
+                name: "IX_UserSetting_SettingId",
+                table: "UserSetting",
                 column: "SettingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSettings_UserId",
-                table: "UserSettings",
-                column: "UserId");
+                name: "IX_UserSetting_UserId_SettingId",
+                table: "UserSetting",
+                columns: new[] { "UserId", "SettingId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vendor_Name",
@@ -579,6 +682,15 @@ namespace BeyondLaDecor.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
+
             migrationBuilder.DropTable(
                 name: "PackageProduct");
 
@@ -595,7 +707,7 @@ namespace BeyondLaDecor.Data.Migrations
                 name: "Task");
 
             migrationBuilder.DropTable(
-                name: "UserSettings");
+                name: "UserSetting");
 
             migrationBuilder.DropTable(
                 name: "Product");
@@ -610,7 +722,7 @@ namespace BeyondLaDecor.Data.Migrations
                 name: "Service");
 
             migrationBuilder.DropTable(
-                name: "Settings");
+                name: "Setting");
 
             migrationBuilder.DropTable(
                 name: "ProductType");
@@ -622,7 +734,7 @@ namespace BeyondLaDecor.Data.Migrations
                 name: "Package");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "ServiceType");

@@ -1,14 +1,17 @@
 ﻿using BeyondLaDecor.Beyond.Api.Constants;
-using BeyondLaDecor.Beyond.Api.Controllers;
 using BeyondLaDecor.Beyond.Business;
 using BeyondLaDecor.Beyond.Data;
 using BeyondLaDecor.Beyond.Data.Repositories;
+using BeyondLaDecor.Beyond.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
 
 namespace BeyondLaDecor.Beyond.Api
 {
@@ -24,10 +27,63 @@ namespace BeyondLaDecor.Beyond.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(e => e.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors();
-            MapDependencies(services);
             ConfigureSqlServer(services);
+            ConfigureIdentity(services);
+            MapDependencies(services);
+        }
+
+        private void ConfigureIdentity(IServiceCollection services)
+        {
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<BeyondDbContext>()
+                .AddDefaultTokenProviders();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+            });
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 7;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Expiration = TimeSpan.FromDays(150);
+                // If the LoginPath isn't set, ASP.NET Core defaults 
+                // the path to /Account/Login.
+                options.LoginPath = "/Account/Login";
+                // If the AccessDeniedPath isn't set, ASP.NET Core defaults 
+                // the path to /Account/AccessDenied.
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+            AddUserManagementDependencies(services);
+        }
+
+        private void AddUserManagementDependencies(IServiceCollection services)
+        {
+            services.TryAddScoped<SignInManager<User>, SignInManager<User>>();
+            services.TryAddScoped<UserManager<User>, AspNetUserManager<User>>();
+            services.TryAddScoped<RoleManager<User>, AspNetRoleManager<User>>();
         }
 
         private void ConfigureSqlServer(IServiceCollection services)
@@ -39,41 +95,42 @@ namespace BeyondLaDecor.Beyond.Api
 
         private void MapDependencies(IServiceCollection services)
         {
-            //Controller
-            services.AddTransient(typeof(IBaseController<>), typeof(BaseController<>));
-            //Repositories
-            services.AddTransient(typeof(IBaseModelRepository<>), typeof(BaseModelRepository<>));
-            services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<IProductTypeRepository, ProductTypeRepository>();
-            services.AddTransient<IServiceRepository, ServiceRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IEventRepository, EventRepository>();
-            services.AddTransient<IEventTypeRepository, EventTypeRepository>();
-            services.AddTransient<IProductServiceTypeRepository, ProductServiceTypeRepository>();
-            services.AddTransient<IPackageRepository, PackageRepository>();
-            services.AddTransient<IPackageProductRepository, PackageProductRepository>();
-            services.AddTransient<IPackageServiceRepository, PackageServiceRepository>();
-            services.AddTransient<IProductTypeRepository, ProductTypeRepository>();
-            services.AddTransient<IServiceTypeRepository, ServiceTypeRepository>();
-            services.AddTransient<IServiceVendorRepository, ServiceVendorRepository>();
-            services.AddTransient<IVendorRepository, VendorRepository>();
-
             //Logic
-            services.AddTransient(typeof(IBusinessLogicBase<>), typeof(BusinessLogicBase<>));
-            services.AddTransient<IProductLogic, ProductLogic>();
-            services.AddTransient<IServiceLogic, ServiceLogic>();
-            services.AddTransient<IUserLogic, UserLogic>();
-            services.AddTransient<IEventLogic, EventLogic>();
-            services.AddTransient<IEventTypeLogic, EventTypeLogic>();
-            services.AddTransient<IPackageLogic, PackageLogic>();
-            services.AddTransient<IPackageProductLogic, PackageProductLogic>();
-            services.AddTransient<IPackageServiceLogic, PackageServiceLogic>();
-            services.AddTransient<IProductTypeLogic, ProductTypeLogic>();
-            services.AddTransient<IServiceTypeLogic, ServiceTypeLogic>();
-            services.AddTransient<IServiceVendorLogic, ServiceVendorLogic>();
-            services.AddTransient<IVendorLogic, VendorLogic>();
+            services.AddScoped<IProductLogic, ProductLogic>();
+            services.AddScoped<IServiceLogic, ServiceLogic>();
+            services.AddScoped<IUserLogic, UserLogic>();
+            services.AddScoped<IEventLogic, EventLogic>();
+            services.AddScoped<IEventTypeLogic, EventTypeLogic>();
+            services.AddScoped<IPackageLogic, PackageLogic>();
+            services.AddScoped<IPackageProductLogic, PackageProductLogic>();
+            services.AddScoped<IPackageServiceLogic, PackageServiceLogic>();
+            services.AddScoped<IProductTypeLogic, ProductTypeLogic>();
+            services.AddScoped<IServiceTypeLogic, ServiceTypeLogic>();
+            services.AddScoped<IServiceVendorLogic, ServiceVendorLogic>();
+            services.AddScoped<IVendorLogic, VendorLogic>();
+            services.AddScoped<ISettingLogic, SettingLogic>();
+            services.AddScoped<IUserSettingLogic, UserSettingLogic>();
+            //Repositories
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IEventTypeRepository, EventTypeRepository>();
+            services.AddScoped<IProductServiceTypeRepository, ProductServiceTypeRepository>();
+            services.AddScoped<IPackageRepository, PackageRepository>();
+            services.AddScoped<IPackageProductRepository, PackageProductRepository>();
+            services.AddScoped<IPackageServiceRepository, PackageServiceRepository>();
+            services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+            services.AddScoped<IServiceTypeRepository, ServiceTypeRepository>();
+            services.AddScoped<IServiceVendorRepository, ServiceVendorRepository>();
+            services.AddScoped<IVendorRepository, VendorRepository>();
+            services.AddScoped<ISettingRepository, SettingRepository>();
+            services.AddScoped<IUserSettingRepository, UserSettingRepository>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<IEventLocationRepository, EventLocationRepository>();
 
-            services.AddTransient(typeof(BeyondDbContext),
+            services.AddScoped(typeof(BeyondDbContext),
                        (c) => new BeyondDbContextFactory(Configuration.GetValue<string>(ConfigurationConstants.BeyondLaDecorConnectionString))
                        .CreateDbContext(null));
         }
@@ -89,10 +146,9 @@ namespace BeyondLaDecor.Beyond.Api
             {
                 //app.UseHsts();
             }
-
-
             app.UseCors(options => options.WithOrigins("https://localhost:44331/").AllowAnyMethod());
             app.UseMvc();
+            app.UseAuthentication();
         }
     }
 }

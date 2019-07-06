@@ -1,5 +1,5 @@
 ﻿using BeyondLaDecor.Beyond.Data.Repositories;
-using BeyondLaDecor.Data.Models;
+using BeyondLaDecor.Beyond.Data.Models;
 
 namespace BeyondLaDecor.Beyond.Business
 {
@@ -8,7 +8,7 @@ namespace BeyondLaDecor.Beyond.Business
     }
     public class ProductLogic : BusinessLogicBase<Product>, IProductLogic
     {
-        protected ProductLogic(IProductRepository repository) : base(repository)
+        public ProductLogic(IProductRepository repository) : base(repository)
         {
         }
     }

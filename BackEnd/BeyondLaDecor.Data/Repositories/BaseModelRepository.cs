@@ -18,7 +18,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
         void Validate(int id, ConcurrentQueue<Exception> exceptions);
     }
 
-    public class BaseModelRepository<TModel> : IBaseModelRepository<TModel> where TModel : class
+    public abstract class BaseModelRepository<TModel> : IBaseModelRepository<TModel> where TModel : class
     {
         protected readonly BeyondDbContext Context;
 

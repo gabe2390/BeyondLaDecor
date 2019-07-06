@@ -9,5 +9,6 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
         void ConfigureRelationships(EntityTypeBuilder<T> builder);
         void ConfigureProperties(EntityTypeBuilder<T> builder);
         void ConfigureIndexes(EntityTypeBuilder<T> builder);
+        void CreateTable(EntityTypeBuilder<T> builder);
     }
 }

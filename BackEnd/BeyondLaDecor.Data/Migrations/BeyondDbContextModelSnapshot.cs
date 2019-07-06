@@ -19,7 +19,7 @@ namespace BeyondLaDecor.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Event", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Event", b =>
                 {
                     b.Property<int>("EventId")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,26 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("Event");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.EventType", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.EventLocation", b =>
+                {
+                    b.Property<int>("EventLocationId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EventId");
+
+                    b.Property<int>("LocationId");
+
+                    b.HasKey("EventLocationId");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("EventLocation");
+                });
+
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.EventType", b =>
                 {
                     b.Property<int>("EventTypeId")
                         .ValueGeneratedOnAdd()
@@ -82,7 +101,41 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("EventType");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Package", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Location", b =>
+                {
+                    b.Property<int>("LocationId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired();
+
+                    b.Property<string>("City")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<DateTime>("StartTime");
+
+                    b.Property<string>("State")
+                        .IsRequired();
+
+                    b.Property<int?>("VendorId");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired();
+
+                    b.HasKey("LocationId");
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("Location");
+                });
+
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Package", b =>
                 {
                     b.Property<int>("PackageId")
                         .ValueGeneratedOnAdd()
@@ -106,7 +159,7 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("Package");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.PackageProduct", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.PackageProduct", b =>
                 {
                     b.Property<int>("PackageProductId")
                         .ValueGeneratedOnAdd()
@@ -131,7 +184,7 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("PackageProduct");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.PackageService", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.PackageService", b =>
                 {
                     b.Property<int>("PackageServiceId")
                         .ValueGeneratedOnAdd()
@@ -156,7 +209,7 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("PackageService");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Product", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -178,22 +231,18 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.Property<int>("ProductTypeId");
 
-                    b.Property<int?>("ServiceTypeId");
-
                     b.Property<bool>("ThirdParty");
 
                     b.HasKey("ProductId");
 
                     b.HasIndex("ProductTypeId");
 
-                    b.HasIndex("ServiceTypeId");
-
                     b.HasIndex("Name", "ProductTypeId");
 
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.ProductServiceType", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.ProductServiceType", b =>
                 {
                     b.Property<int>("ProductServiceTypeId")
                         .ValueGeneratedOnAdd()
@@ -218,7 +267,7 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("ProductServiceType");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.ProductType", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.ProductType", b =>
                 {
                     b.Property<int>("ProductTypeId")
                         .ValueGeneratedOnAdd()
@@ -240,7 +289,32 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("ProductType");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Service", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Service", b =>
                 {
                     b.Property<int>("ServiceId")
                         .ValueGeneratedOnAdd()
@@ -251,6 +325,8 @@ namespace BeyondLaDecor.Data.Migrations
                     b.Property<DateTime>("CreatedOn");
 
                     b.Property<string>("DecorId");
+
+                    b.Property<string>("Description");
 
                     b.Property<DateTime>("LastUpdatedOn");
 
@@ -266,7 +342,7 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("Service");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.ServiceType", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.ServiceType", b =>
                 {
                     b.Property<int>("ServiceTypeId")
                         .ValueGeneratedOnAdd()
@@ -292,7 +368,7 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("ServiceType");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.ServiceVendor", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.ServiceVendor", b =>
                 {
                     b.Property<int>("ServiceVendorId")
                         .ValueGeneratedOnAdd()
@@ -317,7 +393,7 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("ServiceVendor");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Setting", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Setting", b =>
                 {
                     b.Property<int>("SettingId")
                         .ValueGeneratedOnAdd()
@@ -329,16 +405,19 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.Property<DateTime>("LastUpdatedOn");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("SettingType");
 
                     b.HasKey("SettingId");
 
-                    b.ToTable("Settings");
+                    b.HasIndex("Name");
+
+                    b.ToTable("Setting");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Task", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Task", b =>
                 {
                     b.Property<int>("TaskId")
                         .ValueGeneratedOnAdd()
@@ -346,7 +425,13 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.Property<bool>("Completed");
 
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("DecorId");
+
                     b.Property<int?>("EventId");
+
+                    b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -364,26 +449,31 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("Task");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.User", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .IsRequired();
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("Address");
 
                     b.Property<int?>("AdminstratorId");
 
                     b.Property<string>("City")
                         .IsRequired();
 
-                    b.Property<DateTime>("CreatedOn");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
 
                     b.Property<string>("DecorId");
 
                     b.Property<string>("Email")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName")
                         .IsRequired();
@@ -393,24 +483,55 @@ namespace BeyondLaDecor.Data.Migrations
                     b.Property<string>("LastName")
                         .IsRequired();
 
-                    b.Property<DateTime>("LastUpdatedOn");
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
 
                     b.Property<string>("State")
                         .IsRequired();
 
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
                     b.Property<string>("ZipCode")
                         .IsRequired();
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AdminstratorId");
 
                     b.HasIndex("Email");
 
-                    b.ToTable("User");
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.UserSetting", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.UserSetting", b =>
                 {
                     b.Property<int>("UserSettingId")
                         .ValueGeneratedOnAdd()
@@ -430,12 +551,12 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.HasIndex("SettingId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "SettingId");
 
-                    b.ToTable("UserSettings");
+                    b.ToTable("UserSetting");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Vendor", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Vendor", b =>
                 {
                     b.Property<int>("VendorId")
                         .ValueGeneratedOnAdd()
@@ -461,169 +582,318 @@ namespace BeyondLaDecor.Data.Migrations
                     b.ToTable("Vendor");
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Event", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.EventType", "EventType")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<int>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId");
+
+                    b.Property<int>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Event", b =>
+                {
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.EventType", "EventType")
                         .WithMany("Events")
                         .HasForeignKey("EventTypeId")
                         .HasConstraintName("FK_Event_EventType")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BeyondLaDecor.Data.Models.Package", "Package")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Package", "Package")
                         .WithMany("Events")
                         .HasForeignKey("PackageId")
                         .HasConstraintName("FK_Package_Event")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BeyondLaDecor.Data.Models.User", "User")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.User", "User")
                         .WithMany("Events")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_User_Event")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.PackageProduct", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.EventLocation", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.Package", "Package")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Event", "Event")
+                        .WithMany("EventLocations")
+                        .HasForeignKey("EventId")
+                        .HasConstraintName("FK_EventLocation_Event")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Location", "Location")
+                        .WithMany("EventLocations")
+                        .HasForeignKey("LocationId")
+                        .HasConstraintName("FK_EventLocation_Location")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Location", b =>
+                {
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Vendor", "Vendor")
+                        .WithMany("Locations")
+                        .HasForeignKey("VendorId")
+                        .HasConstraintName("FK_Location_Vendor")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.PackageProduct", b =>
+                {
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Package", "Package")
                         .WithMany("PackageProducts")
                         .HasForeignKey("PackageId")
                         .HasConstraintName("FK_Package_PackageProduct")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BeyondLaDecor.Data.Models.Product", "Product")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Product", "Product")
                         .WithMany("PackageProducts")
                         .HasForeignKey("ProductId")
                         .HasConstraintName("FK_Product_PackageProduct")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.PackageService", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.PackageService", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.Package", "Package")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Package", "Package")
                         .WithMany("PackageServices")
                         .HasForeignKey("PackageId")
                         .HasConstraintName("FK_Package_PackageService")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BeyondLaDecor.Data.Models.Service", "Service")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Service", "Service")
                         .WithMany("PackageServices")
                         .HasForeignKey("ServiceId")
                         .HasConstraintName("FK_Service_PackageService")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Product", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Product", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.ProductType", "ProductType")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.ProductType", "ProductType")
                         .WithMany("Products")
                         .HasForeignKey("ProductTypeId")
                         .HasConstraintName("FK_Product_ProductType")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("BeyondLaDecor.Data.Models.ServiceType", "ServiceType")
-                        .WithMany("Products")
-                        .HasForeignKey("ServiceTypeId")
-                        .HasConstraintName("FK_Product_ServiceType")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.ProductServiceType", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.ProductServiceType", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.Product", "Product")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Product", "Product")
                         .WithMany("ProductServiceTypes")
                         .HasForeignKey("ProductId")
                         .HasConstraintName("FK_Product_ProductServiceTypeId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BeyondLaDecor.Data.Models.ServiceType", "ServiceType")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.ServiceType", "ServiceType")
                         .WithMany("ProductServiceTypes")
                         .HasForeignKey("ServiceTypeId")
                         .HasConstraintName("FK_ServiceType_ProductServiceTypeId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Service", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Service", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.ServiceType", "ServiceType")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.ServiceType", "ServiceType")
                         .WithMany("Services")
                         .HasForeignKey("ServiceTypeId")
                         .HasConstraintName("FK_Service_ServiceType")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.ServiceType", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.ServiceType", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.ServiceType", "ParentServiceType")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.ServiceType", "ParentServiceType")
                         .WithMany("ChildServiceTypes")
                         .HasForeignKey("ParentServiceTypeId")
                         .HasConstraintName("FK_Parent_ServiceType")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.ServiceVendor", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.ServiceVendor", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.Service", "Service")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Service", "Service")
                         .WithMany("ServiceVendors")
                         .HasForeignKey("ServiceId")
                         .HasConstraintName("FK_ServiceVendor_Service")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BeyondLaDecor.Data.Models.Vendor", "Vendor")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Vendor", "Vendor")
                         .WithMany("ServiceVendors")
                         .HasForeignKey("VendorId")
                         .HasConstraintName("FK_ServiceVendor_Vendor")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Task", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Task", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.Event", "Event")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Event", "Event")
                         .WithMany("Tasks")
                         .HasForeignKey("EventId")
                         .HasConstraintName("FK_Event_Task")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("BeyondLaDecor.Data.Models.Service", "Service")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Service", "Service")
                         .WithMany("Tasks")
                         .HasForeignKey("ServiceId")
                         .HasConstraintName("FK_Service_Task")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.User", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.User", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.User", "Administrator")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.User", "Administrator")
                         .WithMany("Clients")
                         .HasForeignKey("AdminstratorId")
-                        .HasConstraintName("FK_Admin_Client")
+                        .HasConstraintName("FK_Client_Admin")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.UserSetting", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.UserSetting", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.User", "Client")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.User", "Client")
                         .WithMany("ClientSpecificUserSettings")
-                        .HasForeignKey("ClientId");
-
-                    b.HasOne("BeyondLaDecor.Data.Models.Setting", "Setting")
-                        .WithMany("UserSettings")
-                        .HasForeignKey("SettingId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BeyondLaDecor.Data.Models.User", "User")
-                        .WithMany("UserSettings")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ClientId")
                         .HasConstraintName("FK_Client_UserSetting")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Setting", "Setting")
+                        .WithMany("UserSettings")
+                        .HasForeignKey("SettingId")
+                        .HasConstraintName("FK_UserSetting_Setting")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.User", "User")
+                        .WithMany("UserSettings")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_UserSetting_User")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("BeyondLaDecor.Data.Models.Vendor", b =>
+            modelBuilder.Entity("BeyondLaDecor.Beyond.Data.Models.Vendor", b =>
                 {
-                    b.HasOne("BeyondLaDecor.Data.Models.ServiceType", "ServiceType")
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.ServiceType", "ServiceType")
                         .WithMany("Vendors")
                         .HasForeignKey("ServiceTypeId")
                         .HasConstraintName("FK_Vendor_ServiceType")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.HasOne("BeyondLaDecor.Beyond.Data.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

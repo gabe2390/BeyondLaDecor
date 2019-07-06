@@ -1,5 +1,5 @@
 ﻿using BeyondLaDecor.Beyond.Data.Repositories;
-using BeyondLaDecor.Data.Models;
+using BeyondLaDecor.Beyond.Data.Models;
 
 namespace BeyondLaDecor.Beyond.Business
 {
@@ -8,7 +8,7 @@ namespace BeyondLaDecor.Beyond.Business
     }
     public class EventLogic : BusinessLogicBase<Event>, IEventLogic
     {
-        protected EventLogic(IEventRepository repository) : base(repository)
+        public EventLogic(IEventRepository repository) : base(repository)
         {
         }
     }

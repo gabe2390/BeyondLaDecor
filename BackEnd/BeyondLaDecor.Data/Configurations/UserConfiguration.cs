@@ -1,4 +1,4 @@
-﻿using BeyondLaDecor.Data.Models;
+﻿using BeyondLaDecor.Beyond.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,10 +24,10 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
 
         public override void ConfigureProperties(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(e => e.UserId);
+            builder.HasKey(e => e.Id);
+            builder.Property(e => e.Id).UseSqlServerIdentityColumn();
             builder.Property(e => e.FirstName).IsRequired();
             builder.Property(e => e.LastName).IsRequired();
-            builder.Property(e => e.Address).IsRequired();
             builder.Property(e => e.City).IsRequired();
             builder.Property(e => e.State).IsRequired();
             builder.Property(e => e.ZipCode).IsRequired();
@@ -39,11 +39,18 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasMany(e => e.Events)
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId)
-                .HasConstraintName("FK_User_Event").OnDelete(DeleteBehavior.Restrict);
+                .HasConstraintName("FK_User_Event")
+                .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.Clients)
                 .WithOne(e => e.Administrator)
                 .HasForeignKey(e => e.AdminstratorId)
-                .HasConstraintName("FK_Admin_Client").OnDelete(DeleteBehavior.Restrict);
+                .HasConstraintName("FK_Admin_Client")
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(e => e.Administrator)
+                .WithMany(e => e.Clients)
+                .HasForeignKey(e => e.AdminstratorId)
+                .HasConstraintName("FK_Client_Admin")
+                .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.UserSettings)
                 .WithOne(e => e.User)
                 .HasForeignKey(e=> e.UserId)

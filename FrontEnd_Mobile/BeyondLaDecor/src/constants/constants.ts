@@ -1,0 +1,1 @@
+export type AddType = "EVENT" | "SERVICE" | "PRODUCT" | "PACKAGE" | "CLIENT"

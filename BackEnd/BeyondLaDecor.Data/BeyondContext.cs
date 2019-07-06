@@ -1,14 +1,16 @@
 ﻿using BeyondLaDecor.Beyond.Data.Configurations;
-using BeyondLaDecor.Data.Models;
+using BeyondLaDecor.Beyond.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
 namespace BeyondLaDecor.Beyond.Data
 {
-    public class BeyondDbContext : DbContext
+    public class BeyondDbContext : IdentityDbContext<User, Role, int>
     {
-        private const string CONNECTION_STRING = "Data Source=(localdb)\\MSSQLLocalDB;Initial catalog=BeyondLaDecor;";
+        private const string CONNECTION_STRING = "Data Source=(localdb)\\MSSQLLocalDB; Initial catalog=BeyondLaDecor;";
 
         //Models
         public DbSet<Event> Events { get; set; }
@@ -19,7 +21,6 @@ namespace BeyondLaDecor.Beyond.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Package> Packages { get; set; }
         public DbSet<PackageProduct> PackageProduct { get; set; }
         public DbSet<PackageService> PackageServices { get; set; }
@@ -38,6 +39,7 @@ namespace BeyondLaDecor.Beyond.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            IdentityConfig(builder);
             new EventConfiguration(builder.Entity<Event>()).Configure();
             new EventTypeConfiguration(builder.Entity<EventType>()).Configure();
             new ServiceConfiguration(builder.Entity<Service>()).Configure();
@@ -52,7 +54,21 @@ namespace BeyondLaDecor.Beyond.Data
             new PackageServiceConfiguration(builder.Entity<PackageService>()).Configure();
             new ProductServiceTypeConfiguration(builder.Entity<ProductServiceType>()).Configure();
             new TaskConfiguration(builder.Entity<Task>()).Configure();
+            new SettingConfiguration(builder.Entity<Setting>()).Configure();
+            new UserSettingConfiguration(builder.Entity<UserSetting>()).Configure();
+            new LocationConfiguration(builder.Entity<Location>()).Configure();
             base.OnModelCreating(builder);
+        }
+
+        private void IdentityConfig(ModelBuilder builder)
+        {
+            builder.Entity<User>().ToTable("Users");
+            builder.Entity<Role>().ToTable("Roles");
+            builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
+            builder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
+            builder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
+            builder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
+            builder.Entity<IdentityUserToken<int>>().ToTable("UserToken");
         }
 
         public override int SaveChanges()

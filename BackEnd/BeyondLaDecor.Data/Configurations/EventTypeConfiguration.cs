@@ -1,4 +1,4 @@
-﻿using BeyondLaDecor.Data.Models;
+﻿using BeyondLaDecor.Beyond.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

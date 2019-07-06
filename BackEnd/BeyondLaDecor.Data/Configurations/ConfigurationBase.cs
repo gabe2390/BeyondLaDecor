@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BeyondLaDecor.Beyond.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BeyondLaDecor.Beyond.Data.Configurations
@@ -22,6 +23,6 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
         public abstract void ConfigureIndexes(EntityTypeBuilder<T> builder);
         public abstract void ConfigureProperties(EntityTypeBuilder<T> builder);
         public abstract void ConfigureRelationships(EntityTypeBuilder<T> builder);
-        private void CreateTable(EntityTypeBuilder<T> builder) { builder.ToTable(typeof(T).Name); }
+        public virtual void CreateTable(EntityTypeBuilder<T> builder) { builder.ToTable(typeof(T).Name); }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BeyondLaDecor.Data.Models
+namespace BeyondLaDecor.Beyond.Data.Models
 {
     public class ServiceType : DecorEntity
     {
@@ -11,7 +11,6 @@ namespace BeyondLaDecor.Data.Models
         public ICollection<ServiceType> ChildServiceTypes { get; set; }
         public ICollection<Service> Services { get; set; }
         public ICollection<Vendor> Vendors { get; set; }
-        public ICollection<Product> Products { get; set; }
         public ICollection<ProductServiceType> ProductServiceTypes { get; set; }
     }
 }

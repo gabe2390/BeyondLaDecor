@@ -1,8 +1,8 @@
 ﻿using BeyondLaDecor.Beyond.Business;
-using BeyondLaDecor.Data.Models;
+using BeyondLaDecor.Beyond.Data.Models;
 namespace BeyondLaDecor.Beyond.Api.Controllers
 {
-    internal class UsersController : BaseController<User>
+    public class UsersController : BaseController<User>
     {
         public UsersController(IUserLogic userLogic) : base(userLogic)
         {

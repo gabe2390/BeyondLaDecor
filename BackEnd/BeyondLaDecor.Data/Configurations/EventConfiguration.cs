@@ -1,4 +1,4 @@
-﻿using BeyondLaDecor.Data.Models;
+﻿using BeyondLaDecor.Beyond.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -55,6 +55,11 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
                 .HasForeignKey(e => e.UserId)
                 .HasConstraintName("FK_User_Event")
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(e => e.EventLocations)
+               .WithOne(e => e.Event)
+               .HasForeignKey(e => e.EventId)
+               .HasConstraintName("FK_EventLocation_Event")
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace BeyondLaDecor.Beyond.Business
     public abstract class BusinessLogicBase<TModel> : IBusinessLogicBase<TModel> where TModel : class
     {
 
-        protected BusinessLogicBase(IBaseModelRepository<TModel> repository)
+        public BusinessLogicBase(IBaseModelRepository<TModel> repository)
         {
             Repository = repository;
         }
