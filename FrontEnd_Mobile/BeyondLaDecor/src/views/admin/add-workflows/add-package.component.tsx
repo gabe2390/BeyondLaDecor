@@ -46,10 +46,10 @@ export class AddPackage extends React.Component<{}, {}> {
 
     getPickerItems(): JSX.Element[] {
         return this.eventTypes.map(function (eventType) {
-            return <PickerItem label={eventType.Name} value={eventType.EventTypeId} />;
+            return <PickerItem label={eventType.name} value={eventType.eventTypeId} />;
         });
     }
-    selectEventType() {
-
+    selectEventType = (eventTypeId: EventType, index: number) => {
+        this.setState({ selectEventTypeId: eventTypeId })
     }
 }

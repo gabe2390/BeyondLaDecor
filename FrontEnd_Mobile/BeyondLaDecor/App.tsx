@@ -4,48 +4,18 @@ import { Home } from './src/views/home.component';
 import { Login } from './src/views/login.component';
 import { Registration } from './src/views/registration.component';
 import { ButtonGroup } from 'react-native-elements';
-import { createStore } from 'redux';
-export interface AppState {
-  loggedIn?: boolean,
-  loginIndex: number
-}
-export default class App extends React.Component<{}, AppState> {
+import { Provider, connect } from 'react-redux';
+import laDecorStore from './src/state-management/store';
+import FirstScreen, { IntialScreen } from './IntialScreen';
+import Header from './src/components/header/header.component';
 
-  private buttons: string[] = ["Log In", "Register"];
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      loginIndex: 0 
-    };
-  }
+export default class App extends React.Component {
   render() {
-    let selectedIndex: number = this.state.loginIndex;
     return (
-      <View style={this.styles.container}>
-        {this.getFirstView()}
-        <ButtonGroup
-          onPress={this.updateIndex}
-          selectedIndex={selectedIndex}
-          buttons={this.buttons}
-          containerStyle={{ height: 100 }} />
-      </View>
+      <Provider store={laDecorStore}>
+        <Header></Header>
+        <FirstScreen />
+      </Provider>
     );
   }
-  updateIndex = (selectedIndex: number) => {
-    this.setState({ loginIndex: selectedIndex });
-  }
-  getFirstView() {
-    var component = this.buttons[this.state.loginIndex] === "Register" ?
-      <Registration></Registration> : <Login></Login>
-    return this.state.loggedIn ? <Home></Home> : component;
-  }
-
-  styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
 }

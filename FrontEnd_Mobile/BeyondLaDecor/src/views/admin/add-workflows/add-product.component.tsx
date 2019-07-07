@@ -8,6 +8,7 @@ export class AddClient extends React.Component<{}, {}> {
     render() {
         return (
             <View>
+                
             </View>
         );
     }
