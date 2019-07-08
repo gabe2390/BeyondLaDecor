@@ -1,11 +1,11 @@
 import React, { Dispatch } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Home } from './src/views/home.component';
-import { Login } from './src/views/login.component';
-import { Registration } from './src/views/registration.component';
-import { ButtonGroup } from 'react-native-elements';
+import { Home } from './home.component';
+import { Login } from './login.component';
+import { Registration } from './registration.component';
 import { connect } from 'react-redux';
-import { toggleLoginView } from './src/state-management/actions/root-actions.action';
+import { toggleLoginView } from '../state-management/actions/root-actions.action';
+import { Container } from 'native-base';
 
 export class IntialScreen extends React.Component<any, AppState> {
   private buttons: string[] = ["Log In", "Register"];
@@ -17,19 +17,16 @@ export class IntialScreen extends React.Component<any, AppState> {
 
   render() {
     return (
-      <View style={this.styles.container}>
+      <Container style={this.styles.container}>
         {this.getFirstView()}
-        <ButtonGroup
-          onPress={this.toggleLoginView}
-          selectedIndex={this.props.loginIndex}
-          buttons={this.buttons}
-          containerStyle={{ height: 100 }} />
-      </View>
+      </Container>
     );
   }
+
   toggleLoginView = (selectedIndex: number) => {
     this.props.toggleLoginView(selectedIndex);
   }
+
   getFirstView() {
     var component = this.buttons[this.props.loginIndex] === "Register" ?
       <Registration></Registration> : <Login></Login>
@@ -39,9 +36,9 @@ export class IntialScreen extends React.Component<any, AppState> {
   styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#ff1',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'center'
     },
   });
 }

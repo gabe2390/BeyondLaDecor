@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Container } from 'native-base';
 
 export default function Menu() {
   return (
-    <View>
+    <Container>
       <Text>Menu PlaceHolder</Text>
-    </View>
+    </Container>
   );
 }

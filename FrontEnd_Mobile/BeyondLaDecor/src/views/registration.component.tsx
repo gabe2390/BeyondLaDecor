@@ -1,22 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, CheckBox } from 'react-native';
 import { User } from '../models/user.model';
+import { Container } from 'native-base';
 export interface RegistrationState {
     attemptingToRegister: boolean
 }
 export class Registration extends React.Component<{}, RegistrationState> {
-     user : User;
+    user: User;
     constructor(props: {}) {
         super(props);
-        this.user = {};
     }
     render() {
         return (
-            <View>
+            <Container>
                 <Text>Register Here</Text>
                 <Text>Are You a Wedding/Event Panner?</Text>
                 <CheckBox></CheckBox>
-                <View>
+                <Container>
                     <Text>First Name</Text>
                     <Text>Last Name</Text>
                     <Text>Email</Text>
@@ -24,8 +24,8 @@ export class Registration extends React.Component<{}, RegistrationState> {
                     <Text>City</Text>
                     <Text>State</Text>
                     <Text>Zip Code</Text>
-                </View>
-            </View>
+                </Container>
+            </Container>
         );
     }
 }

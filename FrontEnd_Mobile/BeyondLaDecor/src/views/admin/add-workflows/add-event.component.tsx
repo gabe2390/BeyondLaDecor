@@ -1,5 +1,6 @@
 import React, { Props } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Container } from 'native-base';
 
 export class AddEvent extends React.Component<{}, {}> {
     constructor(props: {}) {
@@ -7,8 +8,8 @@ export class AddEvent extends React.Component<{}, {}> {
     }
     render() {
         return (
-            <View>
-            </View>
+            <Container>
+            </Container>
         );
     }
 }

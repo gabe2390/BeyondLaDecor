@@ -4,7 +4,7 @@ import { Package } from '../../../models/package.model';
 import { EventType } from '../../../models/event-type.model';
 import { Service } from '../../../models/service.model';
 import { Product } from '../../../models/product.model';
-import { Icon, Input } from 'react-native-elements';
+import { Container } from 'native-base';
 
 export interface AddPackageState {
     attemptingAddPackage: boolean,
@@ -27,8 +27,7 @@ export class AddPackage extends React.Component<{}, {}> {
 
     render() {
         return (
-            <View>
-                <Input placeholder='Package Name' leftIcon={<Icon name='user' size={24} color='black' />} />
+            <Container>
                 <Text>Select Included Event Types</Text>
                 <Picker
                     selectedValue={this.selectedEventTypeId}
@@ -40,7 +39,7 @@ export class AddPackage extends React.Component<{}, {}> {
                 </Picker>
                 <Text>Select Included Services</Text>
                 <Text>Select Included Products</Text>
-            </View >
+            </Container>
         );
     }
 

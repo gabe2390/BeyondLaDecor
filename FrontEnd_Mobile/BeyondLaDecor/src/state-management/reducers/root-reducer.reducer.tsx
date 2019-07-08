@@ -1,5 +1,5 @@
 import { ROOT_ACTION_CONSTANTS } from "../../constants/constants";
-import { AppState } from "../../../IntialScreen";
+import { AppState } from "../../views/IntialScreen";
 
 const initialState: AppState = {
     loggedIn: false,
