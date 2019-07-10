@@ -81,9 +81,9 @@ namespace BeyondLaDecor.Beyond.Api
 
         private void AddUserManagementDependencies(IServiceCollection services)
         {
-            services.TryAddScoped<SignInManager<User>, SignInManager<User>>();
-            services.TryAddScoped<UserManager<User>, AspNetUserManager<User>>();
-            services.TryAddScoped<RoleManager<User>, AspNetRoleManager<User>>();
+            services.TryAddTransient<SignInManager<User>, SignInManager<User>>();
+            services.TryAddTransient<UserManager<User>, AspNetUserManager<User>>();
+            services.TryAddTransient<RoleManager<User>, AspNetRoleManager<User>>();
         }
 
         private void ConfigureSqlServer(IServiceCollection services)
@@ -96,39 +96,39 @@ namespace BeyondLaDecor.Beyond.Api
         private void MapDependencies(IServiceCollection services)
         {
             //Logic
-            services.AddScoped<IProductLogic, ProductLogic>();
-            services.AddScoped<IServiceLogic, ServiceLogic>();
-            services.AddScoped<IUserLogic, UserLogic>();
-            services.AddScoped<IEventLogic, EventLogic>();
-            services.AddScoped<IEventTypeLogic, EventTypeLogic>();
-            services.AddScoped<IPackageLogic, PackageLogic>();
-            services.AddScoped<IPackageProductLogic, PackageProductLogic>();
-            services.AddScoped<IPackageServiceLogic, PackageServiceLogic>();
-            services.AddScoped<IProductTypeLogic, ProductTypeLogic>();
-            services.AddScoped<IServiceTypeLogic, ServiceTypeLogic>();
-            services.AddScoped<IServiceVendorLogic, ServiceVendorLogic>();
-            services.AddScoped<IVendorLogic, VendorLogic>();
-            services.AddScoped<ISettingLogic, SettingLogic>();
-            services.AddScoped<IUserSettingLogic, UserSettingLogic>();
+            services.AddTransient<IProductLogic, ProductLogic>();
+            services.AddTransient<IServiceLogic, ServiceLogic>();
+            services.AddTransient<IUserLogic, UserLogic>();
+            services.AddTransient<IEventLogic, EventLogic>();
+            services.AddTransient<IEventTypeLogic, EventTypeLogic>();
+            services.AddTransient<IPackageLogic, PackageLogic>();
+            services.AddTransient<IPackageProductLogic, PackageProductLogic>();
+            services.AddTransient<IPackageServiceLogic, PackageServiceLogic>();
+            services.AddTransient<IProductTypeLogic, ProductTypeLogic>();
+            services.AddTransient<IServiceTypeLogic, ServiceTypeLogic>();
+            services.AddTransient<IServiceVendorLogic, ServiceVendorLogic>();
+            services.AddTransient<IVendorLogic, VendorLogic>();
+            services.AddTransient<ISettingLogic, SettingLogic>();
+            services.AddTransient<IUserSettingLogic, UserSettingLogic>();
             //Repositories
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
-            services.AddScoped<IServiceRepository, ServiceRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IEventRepository, EventRepository>();
-            services.AddScoped<IEventTypeRepository, EventTypeRepository>();
-            services.AddScoped<IProductServiceTypeRepository, ProductServiceTypeRepository>();
-            services.AddScoped<IPackageRepository, PackageRepository>();
-            services.AddScoped<IPackageProductRepository, PackageProductRepository>();
-            services.AddScoped<IPackageServiceRepository, PackageServiceRepository>();
-            services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
-            services.AddScoped<IServiceTypeRepository, ServiceTypeRepository>();
-            services.AddScoped<IServiceVendorRepository, ServiceVendorRepository>();
-            services.AddScoped<IVendorRepository, VendorRepository>();
-            services.AddScoped<ISettingRepository, SettingRepository>();
-            services.AddScoped<IUserSettingRepository, UserSettingRepository>();
-            services.AddScoped<ILocationRepository, LocationRepository>();
-            services.AddScoped<IEventLocationRepository, EventLocationRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductTypeRepository, ProductTypeRepository>();
+            services.AddTransient<IServiceRepository, ServiceRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IEventRepository, EventRepository>();
+            services.AddTransient<IEventTypeRepository, EventTypeRepository>();
+            services.AddTransient<IProductServiceTypeRepository, ProductServiceTypeRepository>();
+            services.AddTransient<IPackageRepository, PackageRepository>();
+            services.AddTransient<IPackageProductRepository, PackageProductRepository>();
+            services.AddTransient<IPackageServiceRepository, PackageServiceRepository>();
+            services.AddTransient<IProductTypeRepository, ProductTypeRepository>();
+            services.AddTransient<IServiceTypeRepository, ServiceTypeRepository>();
+            services.AddTransient<IServiceVendorRepository, ServiceVendorRepository>();
+            services.AddTransient<IVendorRepository, VendorRepository>();
+            services.AddTransient<ISettingRepository, SettingRepository>();
+            services.AddTransient<IUserSettingRepository, UserSettingRepository>();
+            services.AddTransient<ILocationRepository, LocationRepository>();
+            services.AddTransient<IEventLocationRepository, EventLocationRepository>();
 
             services.AddScoped(typeof(BeyondDbContext),
                        (c) => new BeyondDbContextFactory(Configuration.GetValue<string>(ConfigurationConstants.BeyondLaDecorConnectionString))

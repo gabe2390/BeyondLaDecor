@@ -15,7 +15,8 @@ namespace BeyondLaDecor.Beyond.Data.Models
         public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
-        public ICollection<Event> Events { get; set; }
+        public ICollection<Event> ClientEvents { get; set; }
+        public ICollection<Event> AdministratorEvents { get; set; }
         public int? AdminstratorId { get; set; }
         public User Administrator { get; set; }
         public ICollection<User> Clients { get; set; }

@@ -19,13 +19,14 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
 
         public override void ConfigureIndexes(EntityTypeBuilder<Event> builder)
         {
-            builder.HasIndex(e => new { e.PackageId, e.EventTypeId, e.UserId });
+            builder.HasIndex(e => new { e.PackageId, e.EventTypeId, e.AdministratorId, e.ClientId });
         }
 
         public override void ConfigureProperties(EntityTypeBuilder<Event> builder)
         {
             builder.HasKey(e => e.EventId);
-            builder.Property(e => e.UserId).IsRequired();
+            builder.Property(e => e.ClientId).IsRequired();
+            builder.Property(e => e.AdministratorId).IsRequired();
             builder.Property(e => e.Address).IsRequired();
             builder.Property(e => e.Capacity).IsRequired();
             builder.Property(e => e.Date).IsRequired();
@@ -50,11 +51,16 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
                 .HasForeignKey(e => e.PackageId)
                 .HasConstraintName("FK_Event_Package")
                 .OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(e => e.User)
-                .WithMany(e => e.Events)
-                .HasForeignKey(e => e.UserId)
-                .HasConstraintName("FK_User_Event")
+            builder.HasOne(e => e.Administrator)
+                .WithMany(e => e.AdministratorEvents)
+                .HasForeignKey(e => e.AdministratorId)
+                .HasConstraintName("FK_Administrator_Event")
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(e => e.Client)
+               .WithMany(e => e.ClientEvents)
+               .HasForeignKey(e => e.ClientId)
+               .HasConstraintName("FK_Client_Event")
+               .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.EventLocations)
                .WithOne(e => e.Event)
                .HasForeignKey(e => e.EventId)

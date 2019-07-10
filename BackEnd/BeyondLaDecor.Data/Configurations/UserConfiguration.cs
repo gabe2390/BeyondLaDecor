@@ -36,11 +36,16 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
 
         public override void ConfigureRelationships(EntityTypeBuilder<User> builder)
         {
-            builder.HasMany(e => e.Events)
-                .WithOne(e => e.User)
-                .HasForeignKey(e => e.UserId)
-                .HasConstraintName("FK_User_Event")
+            builder.HasMany(e => e.ClientEvents)
+                .WithOne(e => e.Client)
+                .HasForeignKey(e => e.ClientId)
+                .HasConstraintName("FK_Client_Event")
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(e => e.AdministratorEvents)
+               .WithOne(e => e.Administrator)
+               .HasForeignKey(e => e.AdministratorId)
+               .HasConstraintName("FK_Administrator_Event")
+               .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.Clients)
                 .WithOne(e => e.Administrator)
                 .HasForeignKey(e => e.AdminstratorId)

@@ -13,8 +13,10 @@ namespace BeyondLaDecor.Beyond.Data.Models
         public string Address { get; set; }
         public Package Package { get; set; }
         public int? PackageId { get; set; }
-        public User User { get; set; }
-        public int UserId { get; set; }
+        public User Administrator { get; set; }
+        public int AdministratorId { get; set; }
+        public User Client { get; set; }
+        public int ClientId { get; set; }
         public int Capacity { get; set; }
         public int? TableCount { get; set; }
         public ICollection<Task> Tasks { get; set; }
