@@ -1,8 +1,8 @@
 ﻿using BeyondLaDecor.Beyond.Api.Constants;
 using BeyondLaDecor.Beyond.Business;
 using BeyondLaDecor.Beyond.Data;
-using BeyondLaDecor.Beyond.Data.Repositories;
 using BeyondLaDecor.Beyond.Data.Models;
+using BeyondLaDecor.Beyond.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +30,7 @@ namespace BeyondLaDecor.Beyond.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(e => e.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors();
+            services.AddHttpContextAccessor();
             ConfigureSqlServer(services);
             ConfigureIdentity(services);
             MapDependencies(services);
@@ -110,6 +111,9 @@ namespace BeyondLaDecor.Beyond.Api
             services.AddTransient<IVendorLogic, VendorLogic>();
             services.AddTransient<ISettingLogic, SettingLogic>();
             services.AddTransient<IUserSettingLogic, UserSettingLogic>();
+            services.AddTransient<IInventoryLogic, InventoryLogic>();
+            services.AddTransient<IInventoryRecordLogic, InventoryRecordLogic>();
+            services.AddTransient<ILaDecorUserManager, LaDecorUserManager>();
             //Repositories
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProductTypeRepository, ProductTypeRepository>();
@@ -129,6 +133,8 @@ namespace BeyondLaDecor.Beyond.Api
             services.AddTransient<IUserSettingRepository, UserSettingRepository>();
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<IEventLocationRepository, EventLocationRepository>();
+            services.AddTransient<IInventoryRecordRepository, InventoryRecordRepository>();
+            services.AddTransient<IInventoryRepository, InventoryRepository>();
 
             services.AddScoped(typeof(BeyondDbContext),
                        (c) => new BeyondDbContextFactory(Configuration.GetValue<string>(ConfigurationConstants.BeyondLaDecorConnectionString))

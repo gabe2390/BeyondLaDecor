@@ -6,6 +6,7 @@ namespace BeyondLaDecor.Beyond.Data.Models
     {
         public int PackageId { get; set; }
         public string Name { get; set; }
+        public bool IsCustom { get; set; }
         public ICollection<PackageProduct> PackageProducts { get; set; }
         public ICollection<PackageService> PackageServices { get; set; }
         public ICollection<Event> Events { get; set; }

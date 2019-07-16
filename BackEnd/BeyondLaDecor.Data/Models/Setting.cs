@@ -2,7 +2,7 @@
 
 namespace BeyondLaDecor.Beyond.Data.Models
 {
-    public class Setting : DecorEntity
+    public class Setting 
     {
         public int SettingId { get; set; }
         public string Name { get; set; }

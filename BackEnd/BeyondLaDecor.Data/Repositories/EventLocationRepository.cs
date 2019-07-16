@@ -8,7 +8,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
     }
     public class EventLocationRepository : BaseModelRepository<EventLocation>, IEventLocationRepository
     {
-        public EventLocationRepository(BeyondDbContext context) : base(context)
+        public EventLocationRepository(BeyondDbContext context, ILaDecorUserManager userManager) : base(context,userManager) 
         {
         }
     }

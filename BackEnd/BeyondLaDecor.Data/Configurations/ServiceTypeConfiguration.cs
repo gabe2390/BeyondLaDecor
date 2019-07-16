@@ -33,16 +33,23 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasMany(e => e.Services)
                  .WithOne(e => e.ServiceType)
                  .HasForeignKey(e => e.ServiceTypeId)
-                 .HasConstraintName("FK_Service_ServiceType").OnDelete(DeleteBehavior.Restrict);
+                 .HasConstraintName("FK_Service_ServiceType")
+                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.Vendors)
                .WithOne(e => e.ServiceType)
                .HasForeignKey(e => e.ServiceTypeId)
-               .HasConstraintName("FK_Vendor_ServiceType").OnDelete(DeleteBehavior.Restrict);
+               .HasConstraintName("FK_Vendor_ServiceType")
+               .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(e => e.ParentServiceType)
                 .WithMany(e => e.ChildServiceTypes)
                 .HasForeignKey(e => e.ParentServiceTypeId)
-                .HasConstraintName("FK_Parent_ServiceType").OnDelete(DeleteBehavior.Restrict);
-
+                .HasConstraintName("FK_Parent_ServiceType")
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(e => e.Administrator)
+                .WithMany(e => e.ServiceTypes)
+                .HasForeignKey(e => e.AdministratorId)
+                .HasConstraintName("FK_Administrator_ServiceType ")
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

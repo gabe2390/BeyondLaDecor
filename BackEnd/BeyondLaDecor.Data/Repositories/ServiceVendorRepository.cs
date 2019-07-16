@@ -7,7 +7,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
     }
     public class ServiceVendorRepository : BaseModelRepository<ServiceVendor>, IServiceVendorRepository
     {
-        public ServiceVendorRepository(BeyondDbContext context) : base(context)
+        public ServiceVendorRepository(BeyondDbContext context, ILaDecorUserManager userManager) : base(context,userManager) 
         {
         }
     }

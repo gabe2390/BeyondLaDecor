@@ -2,6 +2,7 @@
 {
     public abstract class DecorEntity : Auditable, IDecorEntity
     {
-        public string DecorId { get; set; }
+        public int? AdministratorId { get; set; }
+        public User Administrator { get; set; }
     }
 }

@@ -12,5 +12,7 @@ namespace BeyondLaDecor.Beyond.Data.Models
         public bool ThirdParty { get; set; }
         public ICollection<PackageProduct> PackageProducts { get; set; }
         public ICollection<ProductServiceType> ProductServiceTypes { get; set; }
+        public int? InventoryRecordId { get; set; }
+        public InventoryRecord InventoryRecord { get; set; }
     }
 }

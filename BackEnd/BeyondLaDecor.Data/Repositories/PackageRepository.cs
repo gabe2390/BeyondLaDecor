@@ -8,8 +8,13 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
     }
     public class PackageRepository : BaseModelRepository<Package>, IPackageRepository
     {
-        public PackageRepository(BeyondDbContext context) : base(context)
+        public PackageRepository(BeyondDbContext context, ILaDecorUserManager userManager) : base(context,userManager) 
         {
+        }
+
+        public override Package Create(Package entity)
+        {
+            return base.Create(entity);
         }
     }
 }

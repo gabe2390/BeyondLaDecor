@@ -8,7 +8,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
     }
     public class ServiceTypeRepository : BaseModelRepository<ServiceType>, IServiceTypeRepository
     {
-        public ServiceTypeRepository(BeyondDbContext context) : base(context)
+        public ServiceTypeRepository(BeyondDbContext context, ILaDecorUserManager userManager) : base(context,userManager) 
         {
         }
     }

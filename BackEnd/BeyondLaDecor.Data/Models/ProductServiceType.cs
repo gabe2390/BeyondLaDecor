@@ -2,7 +2,7 @@
 
 namespace BeyondLaDecor.Beyond.Data.Models
 {
-    public class ProductServiceType : DecorEntity
+    public class ProductServiceType 
     {
         public int ProductServiceTypeId { get; set; }
         public int ProductId { get; set; }

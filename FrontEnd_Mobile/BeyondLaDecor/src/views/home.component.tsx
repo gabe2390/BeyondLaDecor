@@ -19,6 +19,7 @@ export class Home extends React.Component<{}, HomeState> {
     }
 
     getCurrentView() {
+        console.log(this.state);
         return this.state.isAdmin ? <AdminHome></AdminHome> : <ClientHome></ClientHome>;
     }
 }

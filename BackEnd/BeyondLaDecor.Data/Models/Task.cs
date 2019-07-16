@@ -10,8 +10,6 @@ namespace BeyondLaDecor.Beyond.Data.Models
         public string Name { get; set; }
         public bool Completed { get; set; }
         public int? EventId { get; set; }
-        [JsonIgnore]
-        [IgnoreDataMember]
         public Event Event { get; set; }
         public int? ServiceId { get; set; }
         public Service Service { get; set; }

@@ -1,5 +1,5 @@
-﻿using BeyondLaDecor.Beyond.Data.Repositories;
-using BeyondLaDecor.Beyond.Data.Models;
+﻿using BeyondLaDecor.Beyond.Data.Models;
+using BeyondLaDecor.Beyond.Data.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +19,9 @@ namespace BeyondLaDecor.Beyond.Business
 
         public IEnumerable<Service> GetServicesByPackage(int packageId)
         {
-            return PackageServiceRepository.Get(e => e.PackageId == packageId).Select(e => e.Service);
+            return PackageServiceRepository.GetAll(e => e.PackageId == packageId, new List<string> { "Service" })
+                .Select(e => e.Service);
+                
         }
     }
 }

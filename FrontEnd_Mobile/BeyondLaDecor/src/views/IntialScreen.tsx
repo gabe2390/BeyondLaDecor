@@ -5,7 +5,8 @@ import { Login } from './login.component';
 import { Registration } from './registration.component';
 import { connect } from 'react-redux';
 import { toggleLoginView } from '../state-management/actions/root-actions.action';
-import { Container } from 'native-base';
+import { Container, Content, Button } from 'native-base';
+import Navigation from '../navigation/root-navigator';
 
 export class IntialScreen extends React.Component<any, AppState> {
   private buttons: string[] = ["Log In", "Register"];
@@ -23,23 +24,28 @@ export class IntialScreen extends React.Component<any, AppState> {
     );
   }
 
-  toggleLoginView = (selectedIndex: number) => {
-    this.props.toggleLoginView(selectedIndex);
+  toggleLoginView = () => {
+    this.props.toggleLoginView(this.props.loginIndex == 0 ? 1 : 0);
   }
 
   getFirstView() {
-    var component = this.buttons[this.props.loginIndex] === "Register" ?
-      <Registration></Registration> : <Login></Login>
-    return this.props.loggedIn ? <Home></Home> : component;
+    var text = this.buttons[this.props.loginIndex];
+    var component = text === "Register" ?
+      <Login></Login> :
+      <Registration></Registration>
+    return this.props.loggedIn ? <Navigation /> :
+      <Content>
+        {component}
+        <Button onPress={this.toggleLoginView} hasText transparent>
+          <Text>Or {text}</Text>
+        </Button>
+      </Content>;
   }
 
   styles = StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: '#ff1',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
+    }
   });
 }
 

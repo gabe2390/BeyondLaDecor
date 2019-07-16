@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BeyondLaDecor.Beyond.Data.Models
 {
-    public class Location
+    public class Location : DecorEntity
     {
         public int LocationId { get; set; }
         public string Name { get; set; }

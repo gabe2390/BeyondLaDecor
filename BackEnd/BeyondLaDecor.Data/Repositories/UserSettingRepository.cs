@@ -8,7 +8,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
     }
     public class UserSettingRepository : BaseModelRepository<UserSetting>, IUserSettingRepository
     {
-        public UserSettingRepository(BeyondDbContext context) : base(context)
+        public UserSettingRepository(BeyondDbContext context, ILaDecorUserManager userManager) : base(context,userManager) 
         {
         }
     }

@@ -2,6 +2,7 @@
 {
     public interface IDecorEntity
     {
-        string DecorId { get; set; }
+        int? AdministratorId { get; set; }
+        User Administrator { get; set; }
     }
 }

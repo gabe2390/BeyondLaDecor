@@ -1,5 +1,7 @@
 ﻿using BeyondLaDecor.Beyond.Data.Repositories;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace BeyondLaDecor.Beyond.Business
 {
@@ -7,6 +9,7 @@ namespace BeyondLaDecor.Beyond.Business
     {
         TModel CreateEntity(TModel model);
         TModel GetEntity(int id);
+        TModel GetEntity(Expression<Func<TModel, bool>> expression);
         IEnumerable<TModel> GetAll();
         TModel UpdateEntity(int id, TModel model);
         void DeleteEntity(int id);
@@ -17,7 +20,7 @@ namespace BeyondLaDecor.Beyond.Business
 
         public BusinessLogicBase(IBaseModelRepository<TModel> repository)
         {
-            Repository = repository;
+            Repository = repository;            
         }
 
         IBaseModelRepository<TModel> Repository { get; set; }
@@ -36,7 +39,12 @@ namespace BeyondLaDecor.Beyond.Business
             return Repository.Get();
         }
 
-        public virtual TModel GetEntity(int id)
+       public virtual TModel GetEntity(Expression<Func<TModel, bool>> expression)
+        {
+            return Repository.Get(expression);
+        }
+
+        public TModel GetEntity(int id)
         {
             return Repository.Get(id);
         }

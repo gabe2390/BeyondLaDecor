@@ -27,18 +27,18 @@ namespace BeyondLaDecor.Beyond.Api.Controllers
             return LogicBase.GetEntity(id);
         }
 
-        [HttpGet("[controller]/create")]
+        [HttpPost("[controller]/create")]
         public ActionResult<TModel> Create(TModel model)
         {
             return LogicBase.CreateEntity(model);
         }
-        [HttpGet("[controller]/{id}/update")]
+        [HttpPut("[controller]/{id}/update")]
         public ActionResult<TModel> Update(int id, TModel model)
         {
             return LogicBase.UpdateEntity(id, model);
         }
 
-        [HttpGet("[controller]/delete")]
+        [HttpDelete("[controller]/delete")]
         public void Delete(int id)
         {
             LogicBase.DeleteEntity(id);

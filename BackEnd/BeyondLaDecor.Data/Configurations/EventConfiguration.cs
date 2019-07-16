@@ -49,7 +49,7 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasOne(e => e.Package)
                 .WithMany(e => e.Events)
                 .HasForeignKey(e => e.PackageId)
-                .HasConstraintName("FK_Event_Package")
+                .HasConstraintName("FK_Package_Event")
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(e => e.Administrator)
                 .WithMany(e => e.AdministratorEvents)

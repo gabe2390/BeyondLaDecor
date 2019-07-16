@@ -48,17 +48,17 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
                .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.Clients)
                 .WithOne(e => e.Administrator)
-                .HasForeignKey(e => e.AdminstratorId)
+                .HasForeignKey(e => e.AdministratorId)
                 .HasConstraintName("FK_Admin_Client")
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(e => e.Administrator)
                 .WithMany(e => e.Clients)
-                .HasForeignKey(e => e.AdminstratorId)
+                .HasForeignKey(e => e.AdministratorId)
                 .HasConstraintName("FK_Client_Admin")
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.UserSettings)
                 .WithOne(e => e.User)
-                .HasForeignKey(e=> e.UserId)
+                .HasForeignKey(e => e.UserId)
                 .HasConstraintName("FK_UserSetting_User")
                 .OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.UserSettings)
@@ -66,6 +66,41 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
                 .HasForeignKey(e => e.UserId)
                 .HasConstraintName("FK_Client_UserSetting")
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(e => e.EventTypes)
+                .WithOne(e => e.Administrator)
+                .HasForeignKey(e => e.AdministratorId)
+                .HasConstraintName("FK_Administrator_EventType")
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(e => e.Products)
+               .WithOne(e => e.Administrator)
+               .HasForeignKey(e => e.AdministratorId)
+               .HasConstraintName("FK_Product_Administrator")
+               .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(e => e.ProductTypes)
+               .WithOne(e => e.Administrator)
+               .HasForeignKey(e => e.AdministratorId)
+               .HasConstraintName("FK_Administrator_ProductType")
+               .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(e => e.Services)
+                .WithOne(e => e.Administrator)
+                .HasForeignKey(e => e.AdministratorId)
+                .HasConstraintName("FK_Administrator_Service")
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(e => e.ServiceTypes)
+                 .WithOne(e => e.Administrator)
+                 .HasForeignKey(e => e.AdministratorId)
+                 .HasConstraintName("FK_Administrator_ServiceType ")
+                 .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(e => e.Vendors)
+                .WithOne(e => e.Administrator)
+                .HasForeignKey(e => e.AdministratorId)
+                .HasConstraintName("FK_Administrator_Vendor")
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(e => e.Packages)
+               .WithOne(e => e.Administrator)
+               .HasForeignKey(e => e.AdministratorId)
+               .HasConstraintName("FK_Package_Administrator")
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

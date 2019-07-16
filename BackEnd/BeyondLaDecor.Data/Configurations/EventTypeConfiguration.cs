@@ -33,7 +33,13 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasMany(e => e.Events)
                 .WithOne(e => e.EventType)
                 .HasForeignKey(e => e.EventTypeId)
-                .HasConstraintName("FK_Event_EventType").OnDelete(DeleteBehavior.Restrict);
+                .HasConstraintName("FK_Event_EventType")
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(e => e.Administrator)
+                .WithMany(e => e.EventTypes)
+                .HasForeignKey(e => e.AdministratorId)
+                .HasConstraintName("FK_Administrator_EventType")
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

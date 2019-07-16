@@ -9,6 +9,8 @@ import * as Font from 'expo-font'
 import { LaDecorHeader } from './src/components/header/header.component';
 import FirstScreen from './src/views/IntialScreen';
 import { AppLoading } from 'expo';
+import RootNavigator from './src/navigation/root-navigator';
+import Navigation from './src/navigation/root-navigator';
 
 export default class App extends React.Component<any, any> {
   constructor(props: any) {
@@ -20,8 +22,7 @@ export default class App extends React.Component<any, any> {
       <AppLoading /> :
       (
         <Provider store={laDecorStore}>
-          <LaDecorHeader></LaDecorHeader>
-          <FirstScreen />
+          <FirstScreen/>
         </Provider>
       );
   }

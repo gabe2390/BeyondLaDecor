@@ -57,9 +57,11 @@ namespace BeyondLaDecor.Beyond.Data
             new SettingConfiguration(builder.Entity<Setting>()).Configure();
             new UserSettingConfiguration(builder.Entity<UserSetting>()).Configure();
             new LocationConfiguration(builder.Entity<Location>()).Configure();
+            new InventoryConfiguration(builder.Entity<Inventory>()).Configure();
+            new InventoryRecordConfiguration(builder.Entity<InventoryRecord>()).Configure();
             base.OnModelCreating(builder);
         }
-
+        //TODO: this doesn't work at the moment, the tables are still being names AspNet...
         private void IdentityConfig(ModelBuilder builder)
         {
             builder.Entity<User>().ToTable("Users");

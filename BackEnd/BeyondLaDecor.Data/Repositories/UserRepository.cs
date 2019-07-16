@@ -8,7 +8,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
     }
     public class UserRepository : BaseModelRepository<User>, IUserRepository
     {
-        public UserRepository(BeyondDbContext context) : base(context)
+        public UserRepository(BeyondDbContext context, ILaDecorUserManager userManager) : base(context,userManager) 
         {
         }
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
-import { Container } from 'native-base';
+import { Container, Header, Content, Form, Item, Input } from 'native-base';
 
 
 export interface Props { }
@@ -12,7 +12,17 @@ export default class AdminLogin extends React.Component<{}, State> {
   render() {
     return (
       <Container>
-        
-      </Container>)
+        <Content>
+          <Form>
+            <Item>
+              <Input placeholder="Username" />
+            </Item>
+            <Item last>
+              <Input placeholder="Password" />
+            </Item>
+          </Form>
+        </Content>
+      </Container>
+    )
   }
 }

@@ -8,7 +8,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
     }
     public class LocationRepository : BaseModelRepository<Location>, ILocationRepository
     {
-        public LocationRepository(BeyondDbContext context) : base(context)
+        public LocationRepository(BeyondDbContext context, ILaDecorUserManager userManager) : base(context,userManager) 
         {
         }
     }

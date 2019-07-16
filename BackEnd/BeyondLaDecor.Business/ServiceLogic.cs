@@ -11,5 +11,10 @@ namespace BeyondLaDecor.Beyond.Business
         public ServiceLogic(IServiceRepository repository) : base(repository)
         {
         }
+
+        public override Service CreateEntity(Service model)
+        {
+            return base.CreateEntity(model);
+        }
     }
 }

@@ -27,6 +27,7 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasKey(e => e.ServiceId);
             builder.Property(e => e.Name).IsRequired();
             builder.Property(e => e.ServiceTypeId).IsRequired();
+            builder.Property(e => e.AdministratorId).IsRequired();
         }
 
         public override void ConfigureRelationships(EntityTypeBuilder<Service> builder)
@@ -50,6 +51,11 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
                 .WithMany(e => e.Services)
                 .HasForeignKey(e => e.ServiceId)
                 .HasConstraintName("FK_Service_ServiceType")
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(e => e.Administrator)
+                .WithMany(e => e.Services)
+                .HasForeignKey(e => e.AdministratorId)
+                .HasConstraintName("FK_Administrator_Service ")
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -5,5 +5,7 @@ export interface Package{
     packageId :number,
     name : string,
     services : Service[],
-    products : Product[]
+    products : Product[],
+    capacity : number,
+    isCustom : boolean
 } 

@@ -28,6 +28,7 @@ namespace BeyondLaDecor.Beyond.Api.Controllers
             var message = result.Succeeded ? "Signed In" : "Errors Signing in.";
             return Content(message);    
         }
+
         [HttpPost("[controller]/[action]")]
         public async Task<ActionResult<string>> Create()
         {
@@ -36,7 +37,6 @@ namespace BeyondLaDecor.Beyond.Api.Controllers
                 Email = "tabc@gmail.com",
                 EmailConfirmed = true,
                 IsAdministrator = true,
-                DecorId = "DecorId1235",
                 City = "Philadelphia",
                 State = "PA",
                 UserName = "SomeGuy65",

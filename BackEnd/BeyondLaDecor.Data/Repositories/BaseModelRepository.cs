@@ -10,30 +10,53 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
 {
     public interface IBaseModelRepository<TModel> where TModel : class
     {
-        TModel Get(int id, string[] includes = null);
-        IEnumerable<TModel> Get(string[] includes = null);
-        IEnumerable<TModel> Get(Expression<Func<TModel, bool>> expression, string[] includes = null);
+        TModel Get(Expression<Func<TModel, bool>> expression, List<string> includes = null);
+        IQueryable<TModel> Get(List<string> includes = null);
+        IQueryable<TModel> GetAll(Expression<Func<TModel, bool>> expression, List<string> includes = null);
         TModel Create(TModel entity);
         TModel Update(int id, TModel entity);
         void Delete(int id);
         void Validate(int id, ConcurrentQueue<Exception> exceptions);
+        TModel Get(int id);
     }
 
     public abstract class BaseModelRepository<TModel> : IBaseModelRepository<TModel> where TModel : class
     {
         protected readonly BeyondDbContext Context;
+        internal readonly ILaDecorUserManager UserManager;
         protected User CurrentUser { get; set; }
 
-        public BaseModelRepository(BeyondDbContext context)
+        public BaseModelRepository(BeyondDbContext context, ILaDecorUserManager userManager)
         {
             Context = context;
+            UserManager = userManager;
+            CurrentUser = GetCurrentUser();
+        }
+
+        private User GetCurrentUser()
+        {
+            return UserManager.GetUser();
         }
 
         public virtual TModel Create(TModel entity)
         {
+            AssignAdministrator(entity);
             Context.Set<TModel>().Add(entity);
             Context.SaveChanges();
             return entity;
+        }
+
+        public void AssignAdministrator(TModel entity)
+        {
+            if (CanAssignAdministrator())
+            {
+                (entity as DecorEntity).AdministratorId = CurrentUser.Id;
+            }
+        }
+
+        private bool CanAssignAdministrator()
+        {
+            return typeof(TModel).IsSubclassOf(typeof(DecorEntity)) && CurrentUser.IsAdministrator;
         }
 
         public virtual void Delete(int id)
@@ -53,51 +76,68 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
             var exceptions = new ConcurrentQueue<Exception>();
             Validate(id, exceptions);
 
-            if (exceptions.Any()) throw new AggregateException(exceptions);
+            if (exceptions.Any())
+            {
+                throw new AggregateException(exceptions);
+            }
 
             Context.Entry(entity).State = EntityState.Modified;
             Context.Set<TModel>().Attach(entity);
             return entity;
         }
 
-        public virtual TModel Get(int id, string[] includes = null)
+        public virtual TModel Get(Expression<Func<TModel, bool>> expression, List<string> includes = null)
         {
             var queryWithIncludes = GetIncludedQuery(includes);
-            return queryWithIncludes.Find(id);
+            return queryWithIncludes.FirstOrDefault(expression);
         }
 
-        public virtual IEnumerable<TModel> Get(string[] includes = null)
+        public virtual IQueryable<TModel> Get(List<string> includes = null)
         {
-            var queryWithIncludes = GetIncludedQuery(includes);
-            return queryWithIncludes.AsEnumerable();
+            var queryWithIncludes = CanAssignAdministrator() ?
+                GetAll(AdministratorFilter(), includes) :
+                GetIncludedQuery(includes);
+            return queryWithIncludes;
         }
-        public virtual IEnumerable<TModel> Get(Expression<Func<TModel, bool>> expression, string[] includes = null)
+
+        private Expression<Func<TModel, bool>> AdministratorFilter()
         {
-            var queryWithIncludes = GetIncludedQuery(includes);
+            return e => (e as DecorEntity).AdministratorId == CurrentUser.Id || !(e as DecorEntity).AdministratorId.HasValue;
+        }
+
+        public virtual IQueryable<TModel> GetAll(Expression<Func<TModel, bool>> expression, List<string> includes = null)
+        {
+            var queryWithIncludes = CanAssignAdministrator() ?
+                GetIncludedQuery(includes).Where(AdministratorFilter()) : GetIncludedQuery(includes);
             return queryWithIncludes.Where(expression);
         }
 
         public void Validate(int id, ConcurrentQueue<Exception> exceptions)
         {
-            if (Context.Set<TModel>().Find(id) == null) exceptions.Enqueue(new Exception($"{nameof(TModel)} with ID {id} not found"));
+            if (Context.Set<TModel>().Find(id) == null)
+            {
+                exceptions.Enqueue(new Exception($"{nameof(TModel)} with ID {id} not found"));
+            }
         }
 
-        private DbSet<TModel> GetIncludedQuery(string[] includes)
+        private IQueryable<TModel> GetIncludedQuery(List<string> includes)
         {
-            DbSet<TModel> query = Context.Set<TModel>();
-            ApplyIncludes(query, includes);
+            IQueryable<TModel> query = Context.Set<TModel>();
+            if (includes != null)
+            {
+                query = ApplyIncludes(query, includes);
+            }
             return query;
         }
 
-        private void ApplyIncludes(DbSet<TModel> query, string[] includes)
+        private IQueryable<TModel> ApplyIncludes(IQueryable<TModel> query, List<string> includes)
         {
-            foreach (var include in includes) query.Include(include);
+            return includes.Aggregate(query, (set, path) => set.Include(path));
         }
 
-        private void ApplyDecorIdFilter()
+        public TModel Get(int id)
         {
-
+            return Context.Set<TModel>().Find(id);
         }
     }
-
 }

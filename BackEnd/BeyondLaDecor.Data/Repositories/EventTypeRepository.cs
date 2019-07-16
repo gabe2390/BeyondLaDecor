@@ -8,7 +8,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
     }
     public class EventTypeRepository : BaseModelRepository<EventType>, IEventTypeRepository
     {
-        public EventTypeRepository(BeyondDbContext context) : base(context)
+        public EventTypeRepository(BeyondDbContext context, ILaDecorUserManager userManager) : base(context,userManager) 
         {
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace BeyondLaDecor.Beyond.Data.Models
 {
-    public class ServiceVendor : DecorEntity
+    public class ServiceVendor
     {
         public int ServiceVendorId { get; set; }
         public int ServiceId { get; set; }

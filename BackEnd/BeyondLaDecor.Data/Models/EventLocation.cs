@@ -1,6 +1,6 @@
 ﻿namespace BeyondLaDecor.Beyond.Data.Models
 {
-    public class EventLocation
+    public class EventLocation : DecorEntity
     {
         public int EventLocationId { get; set; }
         public int EventId { get; set; }
