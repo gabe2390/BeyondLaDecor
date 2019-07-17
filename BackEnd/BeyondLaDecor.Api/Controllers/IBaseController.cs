@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace BeyondLaDecor.Beyond.Api.Controllers
 {
-    public interface IBaseController<TModel> where TModel : class
+    public interface IBaseController<TModel, TApiModel> where TModel : class where TApiModel : class
     {
-        ActionResult<ICollection<TModel>> Get();
-        ActionResult<TModel> Get(int id);
-        ActionResult<TModel> Create(TModel strain);
-        ActionResult<TModel> Update(int id, TModel strain);
+        IEnumerable<TApiModel> Get();
+        TApiModel Get(int id);
+        TApiModel Create(TModel strain);
+        TApiModel Update(int id, TModel model);
         void Delete(int id);
     }
 }

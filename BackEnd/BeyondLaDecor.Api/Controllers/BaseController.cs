@@ -1,4 +1,5 @@
-﻿using BeyondLaDecor.Beyond.Business;
+﻿using AutoMapper;
+using BeyondLaDecor.Beyond.Business;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,35 +8,45 @@ namespace BeyondLaDecor.Beyond.Api.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    public abstract class BaseController<TModel> : ControllerBase, IBaseController<TModel> where TModel : class
+    public abstract class BaseController<TModel, TApiModel> : ControllerBase, IBaseController<TModel, TApiModel> where TModel : class where TApiModel : class
     {
         private IBusinessLogicBase<TModel> LogicBase { get; set; }
-
-        public BaseController(IBusinessLogicBase<TModel> logicBase)
+        private IMapper Mapper { get; set; }
+        public BaseController(IMapper mapper, IBusinessLogicBase<TModel> logicBase)
         {
+            Mapper = mapper;
             LogicBase = logicBase;
         }
 
-        [HttpGet("[controller]/")]
-        public ActionResult<ICollection<TModel>> Get()
+        private TApiModel Map(TModel model)
         {
-            return LogicBase.GetAll().ToList();
+            return Mapper.Map<TApiModel>(model);
+        }
+        private IEnumerable<TApiModel> Map(IEnumerable<TModel> models)
+        {
+            return models.Select(Map);
+        }
+
+        [HttpGet("[controller]/")]
+        public IEnumerable<TApiModel> Get()
+        {
+          return  Map(LogicBase.GetAll());
         }
         [HttpGet("[controller]/{id}")]
-        public ActionResult<TModel> Get(int id)
+        public TApiModel Get(int id)
         {
-            return LogicBase.GetEntity(id);
+            return Map(LogicBase.GetEntity(id));
         }
 
         [HttpPost("[controller]/create")]
-        public ActionResult<TModel> Create(TModel model)
+        public TApiModel Create(TModel model)
         {
-            return LogicBase.CreateEntity(model);
+            return Map(LogicBase.CreateEntity(model));
         }
         [HttpPut("[controller]/{id}/update")]
-        public ActionResult<TModel> Update(int id, TModel model)
+        public TApiModel Update(int id, TModel model)
         {
-            return LogicBase.UpdateEntity(id, model);
+            return Map(LogicBase.UpdateEntity(id, model));
         }
 
         [HttpDelete("[controller]/delete")]

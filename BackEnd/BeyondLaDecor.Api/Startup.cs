@@ -1,4 +1,6 @@
-﻿using BeyondLaDecor.Beyond.Api.Constants;
+﻿using AutoMapper;
+using BeyondLaDecor.Api;
+using BeyondLaDecor.Beyond.Api.Constants;
 using BeyondLaDecor.Beyond.Business;
 using BeyondLaDecor.Beyond.Data;
 using BeyondLaDecor.Beyond.Data.Models;
@@ -31,9 +33,20 @@ namespace BeyondLaDecor.Beyond.Api
                 .AddJsonOptions(e => e.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors();
             services.AddHttpContextAccessor();
+            AddAutoMapperConfig(services);
             ConfigureSqlServer(services);
             ConfigureIdentity(services);
             MapDependencies(services);
+        }
+
+        private void AddAutoMapperConfig(IServiceCollection services)
+        {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         private void ConfigureIdentity(IServiceCollection services)
