@@ -17,7 +17,7 @@ namespace BeyondLaDecor.Api
 
         private void CreateMaps()
         {
-            CreateMap<EventLocation, EventLocationModel>().ReverseMap();
+            CreateMap<EventLocation, EventLocationModel>(MemberList.Destination).ReverseMap();
             CreateMap<Event, EventModel>().ReverseMap();
             CreateMap<EventType, EventTypeModel>().ReverseMap();
             CreateMap<Inventory, InventoryModel>().ReverseMap();
@@ -35,7 +35,7 @@ namespace BeyondLaDecor.Api
             CreateMap<Setting, SettingModel>().ReverseMap();
             CreateMap<SettingType, SettingTypeModel>().ReverseMap();
             CreateMap<Beyond.Data.Models.Task, TaskModel>().ReverseMap();
-            CreateMap<User, UserModel>().ReverseMap();
+            CreateMap<User, UserModel>(MemberList.Destination).ReverseMap();
             CreateMap<UserSetting, UserSettingModel>().ReverseMap();
             CreateMap<Vendor, VendorModel>().ReverseMap();
 

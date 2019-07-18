@@ -10,5 +10,5 @@ export interface User{
     city? : string,
     state? : string,
     events? : Event | Event[],
-    settings : Setting[]
+    settings? : Setting[]
 }

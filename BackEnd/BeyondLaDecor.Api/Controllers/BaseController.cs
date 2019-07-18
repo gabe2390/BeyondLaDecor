@@ -8,21 +8,23 @@ namespace BeyondLaDecor.Beyond.Api.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    public abstract class BaseController<TModel, TApiModel> : ControllerBase, IBaseController<TModel, TApiModel> where TModel : class where TApiModel : class
+    public abstract class BaseController<TModel, TApiModel> : ControllerBase, IBaseController<TModel, TApiModel>
+        where TModel : class 
+        where TApiModel : class
     {
         private IBusinessLogicBase<TModel> LogicBase { get; set; }
-        private IMapper Mapper { get; set; }
+        internal IMapper Mapper { get; set; }
         public BaseController(IMapper mapper, IBusinessLogicBase<TModel> logicBase)
         {
             Mapper = mapper;
             LogicBase = logicBase;
         }
 
-        private TApiModel Map(TModel model)
+        internal TApiModel Map(TModel model)
         {
             return Mapper.Map<TApiModel>(model);
         }
-        private IEnumerable<TApiModel> Map(IEnumerable<TModel> models)
+        internal IEnumerable<TApiModel> Map(IEnumerable<TModel> models)
         {
             return models.Select(Map);
         }

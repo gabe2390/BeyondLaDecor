@@ -1,16 +1,16 @@
-﻿using BeyondLaDecor.Beyond.Business;
+﻿using AutoMapper;
+using BeyondLaDecor.Beyond.Api.DomainModels;
+using BeyondLaDecor.Beyond.Business;
 using BeyondLaDecor.Beyond.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace BeyondLaDecor.Beyond.Api.Controllers
 {
-    public class ServicesController : BaseController<Service>
+    public class ServicesController : BaseController<Service, ServiceModel>
     {
-        private IServiceLogic ServiceLogic { get; set; }
-        public ServicesController(IServiceLogic serviceLogic) : base(serviceLogic)
+        public ServicesController(IMapper mapper,IServiceLogic serviceLogic) : base(mapper, serviceLogic)
         {
-            ServiceLogic = serviceLogic;
         }
     }
 }

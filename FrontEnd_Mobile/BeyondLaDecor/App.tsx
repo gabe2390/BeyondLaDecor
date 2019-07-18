@@ -11,6 +11,7 @@ import FirstScreen from './src/views/IntialScreen';
 import { AppLoading } from 'expo';
 import RootNavigator from './src/navigation/root-navigator';
 import Navigation from './src/navigation/root-navigator';
+import { Dashboard } from './src/views/dashboard.component';
 
 export default class App extends React.Component<any, any> {
   constructor(props: any) {
@@ -22,7 +23,7 @@ export default class App extends React.Component<any, any> {
       <AppLoading /> :
       (
         <Provider store={laDecorStore}>
-          <FirstScreen/>
+          <Dashboard/>
         </Provider>
       );
   }

@@ -41,6 +41,7 @@ namespace BeyondLaDecor.Beyond.Api
 
         private void AddAutoMapperConfig(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new AutoMapperProfile());

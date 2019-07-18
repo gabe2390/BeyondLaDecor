@@ -7,8 +7,9 @@ export interface Event {
     eventId: number,
     eventType : EventType
     client: User,
-    planner: User,
+    planner?: User,
     package: Package
     date: Date,
-    locations: Location | Location[]
+    locations: Location[],
+    cost? : number
 }

@@ -1,10 +1,12 @@
-﻿using BeyondLaDecor.Beyond.Business;
+﻿using AutoMapper;
+using BeyondLaDecor.Beyond.Api.DomainModels;
+using BeyondLaDecor.Beyond.Business;
 using BeyondLaDecor.Beyond.Data.Models;
 namespace BeyondLaDecor.Beyond.Api.Controllers
 {
-    public class LocationsController : BaseController<Location>
+    public class LocationsController : BaseController<Location, LocationModel>
     {
-        public LocationsController(ILocationLogic locationLogic) : base(locationLogic)
+        public LocationsController(IMapper mapper, ILocationLogic locationLogic) : base(mapper, locationLogic)
         {
         }
     }

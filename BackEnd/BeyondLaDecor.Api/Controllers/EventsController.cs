@@ -1,10 +1,12 @@
-﻿using BeyondLaDecor.Beyond.Business;
+﻿using AutoMapper;
+using BeyondLaDecor.Beyond.Api.DomainModels;
+using BeyondLaDecor.Beyond.Business;
 using BeyondLaDecor.Beyond.Data.Models;
 namespace BeyondLaDecor.Beyond.Api.Controllers
 {
-    public class EventsController : BaseController<Event>
+    public class EventsController : BaseController<Event, EventModel>
     {
-        public EventsController(IEventLogic eventLogic) : base(eventLogic)
+        public EventsController(IMapper mapper, IEventLogic eventLogic) : base(mapper, eventLogic)
         {
         }
     }
