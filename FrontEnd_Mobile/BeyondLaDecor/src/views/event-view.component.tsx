@@ -8,18 +8,27 @@ import { Task } from "../models/task.model";
 import { Event } from "../models/event.model";
 
 export interface EventViewState {
-
+    filteringMethod: Function,
+    sortingMethod: Function,
+    startDateRange: Date,
+    endDateRange: Date
 }
-export class EventView extends React.Component<{}, EventViewState> {
-    constructor() {
-        super({});
+export class EventView extends React.Component<any, EventViewState> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            filteringMethod: () => { },
+            sortingMethod: () => { },
+            startDateRange: new Date(),
+            endDateRange: new Date(),
+        }
     }
     render() {
 
         return (
             <Container>
                 <Content>
-                    <Container>
+                    <Container style={{ flex: 1, flexDirection: "row" }}>
                         {this.getSortMenu()}
                         {this.getFilterMenu()}
                         {this.getDateRangeMenu()}
@@ -35,8 +44,8 @@ export class EventView extends React.Component<{}, EventViewState> {
                 mode="dropdown"
                 iosHeader="Sort"
                 iosIcon={<Icon name="arrow-down" />}
-                style={{ width: "30px" }}
-                selectedValue={this.state.selected}
+                style={{ width: 100, borderColor: "black", borderStyle: "solid" }}
+                selectedValue={this.state.sortingMethod}
                 onValueChange={this.changeSortingMethod.bind(this)}>
                 <Picker.Item label="Wallet" value="key0" />
                 <Picker.Item label="ATM Card" value="key1" />
@@ -46,27 +55,31 @@ export class EventView extends React.Component<{}, EventViewState> {
             </Picker>
         </Form>
     }
+    changeSortingMethod() { }
+
+    sortingMethods: string[] = ["Event Date", "Event Type", "Cost"];
+    filteringMethods: string[] = ["Event Type", "Package"];
     getFilterMenu(): React.ReactNode {
         return <Form>
             <Picker
                 mode="dropdown"
                 iosHeader="Filter"
                 iosIcon={<Icon name="arrow-down" />}
-                style={{ width: undefined }}
-                selectedValue={this.state.selected}
+                style={{ width: 100 }}
+                selectedValue={this.state.filteringMethod}
                 onValueChange={this.changeFilteringMethod.bind(this)}>
-                <Picker.Item label="Wallet" value="key0" />
-                <Picker.Item label="ATM Card" value="key1" />
-                <Picker.Item label="Debit Card" value="key2" />
-                <Picker.Item label="Credit Card" value="key3" />
-                <Picker.Item label="Net Banking" value="key4" />
+                {this.sortingMethods.map((method, index) => {
+                    <Picker.Item label={method} value={`key${index}`} />
+                })}
             </Picker>
         </Form>
     }
-    getDateRangeMenu(): React.ReactNode {
+    changeFilteringMethod() { }
+
+    getDateRangeMenu(): any {
         let startDatePicker = <DatePicker
-            defaultDate={new Date(2018, 4, 4)}
-            minimumDate={new Date(2018, 1, 1)}
+            defaultDate={new Date()}
+            minimumDate={new Date()}
             maximumDate={new Date(2018, 12, 31)}
             locale={"en"}
             timeZoneOffsetInMinutes={undefined}
@@ -76,7 +89,7 @@ export class EventView extends React.Component<{}, EventViewState> {
             placeHolderText="Select date"
             textStyle={{ color: "green" }}
             placeHolderTextStyle={{ color: "#d3d3d3" }}
-            onDateChange={this.setDate}
+            onDateChange={this.setStartDateRange.bind(this)}
             disabled={false}
         />;
         let endDatePicker = <DatePicker
@@ -91,22 +104,25 @@ export class EventView extends React.Component<{}, EventViewState> {
             placeHolderText="Select date"
             textStyle={{ color: "green" }}
             placeHolderTextStyle={{ color: "#d3d3d3" }}
-            onDateChange={this.setDate}
+            onDateChange={this.setEndDateRange.bind(this)}
             disabled={false}
         />;
 
-        return <Container>
+        return
+        <Container style={{ flex: 2, flexDirection: "row" }}>
             {startDatePicker}
-            {endDatePicker}
-        </Container>;
+            {endDatePicker}></Container>;
     }
 
+    setStartDateRange() { }
+    setEndDateRange() { }
     getEvents() {
         var events: Event[] = [];
         for (var i: number = 0; i < 6; i++) {
             events.push(this.getEvent())
         }
-        return events.map((event: Event) => <EventCard event={event} tasks={this.getTasks()}></EventCard>)
+        return events.map((event: Event, index: number) =>
+            <EventCard index={index} event={event} tasks={this.getTasks()}></EventCard>)
     }
     getEvent(): Event {
         let client: User = {

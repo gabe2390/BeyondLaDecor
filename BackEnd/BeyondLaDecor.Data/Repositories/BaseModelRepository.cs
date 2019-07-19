@@ -10,9 +10,9 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
 {
     public interface IBaseModelRepository<TModel> where TModel : class
     {
-        TModel Get(Expression<Func<TModel, bool>> expression, List<string> includes = null);
-        IQueryable<TModel> Get(List<string> includes = null);
-        IQueryable<TModel> GetAll(Expression<Func<TModel, bool>> expression, List<string> includes = null);
+        TModel Get(Expression<Func<TModel, bool>> expression, string[] includes = null);
+        IQueryable<TModel> GetAll(string[] includes   = null);
+        IQueryable<TModel> GetAll(Expression<Func<TModel, bool>> expression, string[] includes = null);
         TModel Create(TModel entity);
         TModel Update(int id, TModel entity);
         void Delete(int id);
@@ -86,13 +86,13 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
             return entity;
         }
 
-        public virtual TModel Get(Expression<Func<TModel, bool>> expression, List<string> includes = null)
+        public virtual TModel Get(Expression<Func<TModel, bool>> expression, string[] includes = null)
         {
             var queryWithIncludes = GetIncludedQuery(includes);
             return queryWithIncludes.FirstOrDefault(expression);
         }
 
-        public virtual IQueryable<TModel> Get(List<string> includes = null)
+        public virtual IQueryable<TModel> GetAll(string[] includes = null)
         {
             var queryWithIncludes = CanAssignAdministrator() ?
                 GetAll(AdministratorFilter(), includes) :
@@ -105,7 +105,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
             return e => (e as DecorEntity).AdministratorId == CurrentUser.Id || !(e as DecorEntity).AdministratorId.HasValue;
         }
 
-        public virtual IQueryable<TModel> GetAll(Expression<Func<TModel, bool>> expression, List<string> includes = null)
+        public virtual IQueryable<TModel> GetAll(Expression<Func<TModel, bool>> expression, string[] includes = null)
         {
             var queryWithIncludes = CanAssignAdministrator() ?
                 GetIncludedQuery(includes).Where(AdministratorFilter()) : GetIncludedQuery(includes);
@@ -120,7 +120,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
             }
         }
 
-        private IQueryable<TModel> GetIncludedQuery(List<string> includes)
+        private IQueryable<TModel> GetIncludedQuery(string[] includes)
         {
             IQueryable<TModel> query = Context.Set<TModel>();
             if (includes != null)
@@ -130,7 +130,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
             return query;
         }
 
-        private IQueryable<TModel> ApplyIncludes(IQueryable<TModel> query, List<string> includes)
+        private IQueryable<TModel> ApplyIncludes(IQueryable<TModel> query, string[] includes)
         {
             return includes.Aggregate(query, (set, path) => set.Include(path));
         }

@@ -11,17 +11,31 @@ namespace BeyondLaDecor.Beyond.Business
     }
     public class PackageLogic : BusinessLogicBase<Package>, IPackageLogic
     {
+        private IPackageRepository PackageRepository { get; set; }
         private IPackageServiceRepository PackageServiceRepository { get; set; }
+        private IPackageProductRepository PackageProductRepository { get; set; }
         public PackageLogic(IPackageRepository repository, IPackageServiceRepository packageServiceRepository) : base(repository)
         {
+            PackageRepository = repository;
             PackageServiceRepository = packageServiceRepository;
+        }
+        public Package PackageDetail(int packageId)
+        {
+            var package = PackageRepository.Get(e => e.PackageId == packageId, new[] { "Events" });
+            package.PackageProducts = PackageProductRepository.GetAll(e => e.PackageId == packageId, new[] { "Product" }).ToList();
+            package.PackageServices = PackageServiceRepository.GetAll(e => e.PackageId == packageId, new[] { "Service" }).ToList();
+            return package;
         }
 
         public IEnumerable<Service> GetServicesByPackage(int packageId)
         {
-            return PackageServiceRepository.GetAll(e => e.PackageId == packageId, new List<string> { "Service" })
+            return PackageServiceRepository.GetAll(e => e.PackageId == packageId, new [] { "Service" })
                 .Select(e => e.Service);
-                
+        }
+        public IEnumerable<Product> GetProductsByPackage(int packageId)
+        {
+            return PackageProductRepository.GetAll(e => e.PackageId == packageId, new [] { "Product" })
+                .Select(e => e.Product);
         }
     }
 }
