@@ -11,5 +11,5 @@ export interface Event {
     package: Package
     date: Date,
     locations: Location[],
-    cost? : number
+    cost : number
 }

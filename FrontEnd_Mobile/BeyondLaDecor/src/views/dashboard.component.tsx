@@ -14,13 +14,13 @@ export class Dashboard extends React.Component<any, any>{
             <Container>
                 <Header hasTabs />
                 <Tabs>
-                    <Tab heading={<TabHeading><Icon name="camera" /><Text>Events</Text></TabHeading>}>
+                    <Tab heading={<TabHeading><Text>Events</Text></TabHeading>}>
                         <EventView />
                     </Tab>
                     <Tab heading={<TabHeading><Text>Packages and Services</Text></TabHeading>}>
                         <PackageServiceView/>
                     </Tab>
-                    <Tab heading={<TabHeading><Icon name="apps" /><Text>Inventory Search</Text></TabHeading>}>
+                    <Tab heading={<TabHeading><Text>Inventory Search</Text></TabHeading>}>
                         <InventorySearchView />
                     </Tab>
                 </Tabs>
