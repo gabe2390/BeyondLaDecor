@@ -36,7 +36,7 @@ namespace BeyondLaDecor.Beyond.Business
 
         public IEnumerable<TModel> GetAll()
         {
-            return Repository.Get();
+            return Repository.GetAll();
         }
 
        public virtual TModel GetEntity(Expression<Func<TModel, bool>> expression)

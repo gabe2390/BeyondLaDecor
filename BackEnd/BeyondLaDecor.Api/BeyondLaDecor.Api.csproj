@@ -31,4 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BeyondLaDecor.Business\BeyondLaDecor.Business.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DtoMappers\" />
+  </ItemGroup>
 </Project>

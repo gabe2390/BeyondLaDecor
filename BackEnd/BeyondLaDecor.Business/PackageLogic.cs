@@ -1,6 +1,7 @@
 ﻿using BeyondLaDecor.Beyond.Data.Models;
 using BeyondLaDecor.Beyond.Data.Repositories;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace BeyondLaDecor.Beyond.Business
@@ -21,20 +22,20 @@ namespace BeyondLaDecor.Beyond.Business
         }
         public Package PackageDetail(int packageId)
         {
-            var package = PackageRepository.Get(e => e.PackageId == packageId, new[] { "Events" });
-            package.PackageProducts = PackageProductRepository.GetAll(e => e.PackageId == packageId, new[] { "Product" }).ToList();
-            package.PackageServices = PackageServiceRepository.GetAll(e => e.PackageId == packageId, new[] { "Service" }).ToList();
+            var package = PackageRepository.Get(packageId);
+            package.PackageProducts = (ICollection<PackageProduct>)PackageServiceRepository.GetAll(e => e.PackageId == packageId, new[] { "Service" });
+            package.PackageServices = (ICollection<PackageService>)PackageServiceRepository.GetAll(e => e.PackageId == packageId, new[] { "Service" });
             return package;
         }
 
         public IEnumerable<Service> GetServicesByPackage(int packageId)
         {
-            return PackageServiceRepository.GetAll(e => e.PackageId == packageId, new [] { "Service" })
+            return PackageServiceRepository.GetAll(e => e.PackageId == packageId, new[] { "Service" })
                 .Select(e => e.Service);
         }
         public IEnumerable<Product> GetProductsByPackage(int packageId)
         {
-            return PackageProductRepository.GetAll(e => e.PackageId == packageId, new [] { "Product" })
+            return PackageProductRepository.GetAll(e => e.PackageId == packageId, new[] { "Product" })
                 .Select(e => e.Product);
         }
     }
