@@ -7,8 +7,8 @@ namespace BeyondLaDecor.Beyond.Api.DomainModels
         public int PackageId { get; set; }
         public string Name { get; set; }
         public bool IsCustom { get; set; }
-        public ICollection<ProductModel> Products { get; set; }
-        public ICollection<ServiceModel> Services { get; set; }
-        public ICollection<EventModel> Events { get; set; }
+        public IEnumerable<ProductModel> Products { get; set; }
+        public IEnumerable<ServiceModel> Services { get; set; }
+        public IEnumerable<EventModel> Events { get; set; }
     }
 }

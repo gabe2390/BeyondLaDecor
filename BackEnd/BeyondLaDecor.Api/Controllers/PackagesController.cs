@@ -16,10 +16,16 @@ namespace BeyondLaDecor.Beyond.Api.Controllers
             PackageLogic = packageLogic;
         }
 
+        [HttpGet("[controller]/{packageId}/Detail")]
+        public PackageModel GetDetailedPackage(int packageId)
+        {
+            return Mapper.Map<PackageModel>(PackageLogic.PackageDetail(packageId));
+        }
+
         [HttpGet("[controller]/{packageId}/Services")]
         public IEnumerable<ServiceModel> ServicesByPackage(int packageId)
         {
-            return PackageLogic.GetServicesByPackage(packageId).Select(Mapper.Map<ServiceModel>);
+            return PackageLogic.GetServicesByPackage (packageId).Select(Mapper.Map<ServiceModel>);
         }
     }
 }

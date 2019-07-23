@@ -4,14 +4,16 @@ using BeyondLaDecor.Beyond.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BeyondLaDecor.Data.Migrations
 {
     [DbContext(typeof(BeyondDbContext))]
-    partial class BeyondDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190723003239_IsCustom_Other")]
+    partial class IsCustom_Other
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,8 +27,13 @@ namespace BeyondLaDecor.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Address")
+                        .IsRequired();
+
                     b.Property<int?>("AdministratorId")
                         .IsRequired();
+
+                    b.Property<int>("Capacity");
 
                     b.Property<int>("ClientId");
 
@@ -38,8 +45,12 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.Property<DateTime>("LastUpdatedOn");
 
+                    b.Property<string>("LocationName");
+
                     b.Property<int?>("PackageId")
                         .IsRequired();
+
+                    b.Property<int?>("TableCount");
 
                     b.HasKey("EventId");
 
@@ -62,21 +73,13 @@ namespace BeyondLaDecor.Data.Migrations
 
                     b.Property<int?>("AdministratorId");
 
-                    b.Property<int>("Capacity");
-
                     b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime?>("EndTime");
 
                     b.Property<int>("EventId");
 
                     b.Property<DateTime>("LastUpdatedOn");
 
                     b.Property<int>("LocationId");
-
-                    b.Property<DateTime?>("StartTime");
-
-                    b.Property<int?>("TableCount");
 
                     b.HasKey("EventLocationId");
 

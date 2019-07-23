@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DtoMappers\**" />
     <Compile Remove="Dtos\**" />
+    <Content Remove="DtoMappers\**" />
     <Content Remove="Dtos\**" />
+    <EmbeddedResource Remove="DtoMappers\**" />
     <EmbeddedResource Remove="Dtos\**" />
+    <None Remove="DtoMappers\**" />
     <None Remove="Dtos\**" />
   </ItemGroup>
 
@@ -30,8 +34,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BeyondLaDecor.Business\BeyondLaDecor.Business.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DtoMappers\" />
   </ItemGroup>
 </Project>

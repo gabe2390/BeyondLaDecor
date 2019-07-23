@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -11,7 +10,7 @@ namespace BeyondLaDecor.Beyond.Data.Repositories
     public interface IBaseModelRepository<TModel> where TModel : class
     {
         TModel Get(Expression<Func<TModel, bool>> expression, string[] includes = null);
-        IQueryable<TModel> GetAll(string[] includes   = null);
+        IQueryable<TModel> GetAll(string[] includes = null);
         IQueryable<TModel> GetAll(Expression<Func<TModel, bool>> expression, string[] includes = null);
         TModel Create(TModel entity);
         TModel Update(int id, TModel entity);

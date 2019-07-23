@@ -10,8 +10,7 @@ namespace BeyondLaDecor.Beyond.Api.DomainModels
         public string Name { get; set; }
         public string Description { get; set; }     
         public bool ThirdParty { get; set; }
-        public ICollection<PackageProductModel> PackageProducts { get; set; }
-        public ICollection<ProductServiceTypeModel> ProductServiceTypes { get; set; }
+        public IEnumerable<ServiceTypeModel> ServiceTypes { get; set; }
         public int? InventoryRecordId { get; set; }
         public InventoryRecordModel InventoryRecord { get; set; }
     }

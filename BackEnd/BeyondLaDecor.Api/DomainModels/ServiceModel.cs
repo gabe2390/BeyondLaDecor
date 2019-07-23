@@ -9,8 +9,7 @@ namespace BeyondLaDecor.Beyond.Api.DomainModels
         public ServiceTypeModel ServiceType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<PackageServiceModel> PackageServices { get; set; }
-        public ICollection<ServiceVendorModel> ServiceVendors { get; set; }
-        public ICollection<TaskModel> Tasks { get; set; }
+        public IEnumerable<VendorModel> Vendors { get; set; }
+        public IEnumerable<TaskModel> Tasks { get; set; }
     }
 }

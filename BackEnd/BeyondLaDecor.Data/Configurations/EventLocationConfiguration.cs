@@ -26,7 +26,9 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
         {
             builder.HasKey(e => e.EventLocationId);
             builder.Property(e => e.EventId).IsRequired();
-            builder.Property(e => e.LocationId).IsRequired();
+            builder.Property(e => e.LocationId).IsRequired();            
+            builder.Property(e => e.Capacity).IsRequired();
+            builder.Property(e => e.TableCount).IsRequired();
         }
 
         public override void ConfigureRelationships(EntityTypeBuilder<EventLocation> builder)

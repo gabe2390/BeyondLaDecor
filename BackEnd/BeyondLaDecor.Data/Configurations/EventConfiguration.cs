@@ -27,8 +27,6 @@ namespace BeyondLaDecor.Beyond.Data.Configurations
             builder.HasKey(e => e.EventId);
             builder.Property(e => e.ClientId).IsRequired();
             builder.Property(e => e.AdministratorId).IsRequired();
-            builder.Property(e => e.Address).IsRequired();
-            builder.Property(e => e.Capacity).IsRequired();
             builder.Property(e => e.Date).IsRequired();
             builder.Property(e => e.EventTypeId).IsRequired();
             builder.Property(e => e.PackageId).IsRequired();
