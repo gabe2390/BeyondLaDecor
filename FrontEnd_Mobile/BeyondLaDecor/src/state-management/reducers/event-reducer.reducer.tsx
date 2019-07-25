@@ -18,10 +18,12 @@ function eventViewReducer(state: EventViewState = intialState, action: any): Eve
             return { ...state, filteringMethod: action.payload };
         case EVENT_VIEW_ACTION_CONSTANTS.CHANGE_SORTING_METHOD:
             return { ...state, sortingMethod: action.payload };
-        case EVENT_VIEW_ACTION_CONSTANTS.CHANGE_START_DATE_FILTER:
+        case EVENT_VIEW_ACTION_CONSTANTS.CHANGE_START_DATE_RANGE:
             return { ...state, startDateRange: action.payload };
-            case EVENT_VIEW_ACTION_CONSTANTS.CHANGE_END_DATE_FILTER:
-                return { ...state, endDateRange: action.payload };
+        case EVENT_VIEW_ACTION_CONSTANTS.CHANGE_END_DATE_RANGE:
+            return { ...state, endDateRange: action.payload };
+            case EVENT_VIEW_ACTION_CONSTANTS.TOGGLE_VIEW :
+                return {...state, loading : action.payload}
         default: return state;
     };
 }

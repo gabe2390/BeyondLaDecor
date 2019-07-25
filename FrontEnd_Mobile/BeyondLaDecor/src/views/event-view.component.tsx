@@ -11,6 +11,8 @@ import { FilteringMethods, FilteringMethod } from "../utilities/filtering-method
 import { AppLoading } from "expo";
 import Axios from "axios";
 import { connect } from "react-redux";
+import { EventViewActions } from "../state-management/actions/event-actions.action";
+import { HttpService } from "../services/httpservice.service";
 
 export interface EventViewState {
     filteringMethod: FilteringMethod,
@@ -20,34 +22,22 @@ export interface EventViewState {
     events: Event[],
     loading: boolean
 }
-export class EventView extends React.Component<any, EventViewState> {
+class EventView extends React.Component<any, EventViewState> {
     sortingMethodMap: { [method: string]: SortingMethod };
     filteringMethodMap: { [method: string]: FilteringMethod };
     events: Event[];
 
     constructor(props: any) {
         super(props);
-        console.log(this.state && this.state.filteringMethod);
-        console.log(this.state && this.state.sortingMethod);
-        this.state = {
-            filteringMethod: this.state && this.state.filteringMethod || FilteringMethods.empty,
-            sortingMethod: this.state && this.state.sortingMethod || SortingMethods.empty,
-            startDateRange: this.state && this.state.startDateRange || undefined,
-            endDateRange: this.state && this.state.endDateRange || undefined,
-            events: [],
-            loading: true
-        };
-
-        this.events = this.getEvents();
+        this.events = this.props.events;
         this.sortingMethodMap = this.createSortingMethodMap();
         this.filteringMethodMap = this.createFilteringMethodMap();
     }
 
-    async componentWillMount() {
-        await Axios.get()
-        .then(()=>{})
-        .catch(()=>{});
-        this.setState({ ...this.state, loading: false });
+    async componentDidMount() {
+        HttpService.getEvents().then((response) => {
+            this.props.loadEvents(response);
+        }).then(() => { this.props.toggleView(false) });
     }
 
     createSortingMethodMap(): { [method: string]: SortingMethod } {
@@ -66,7 +56,7 @@ export class EventView extends React.Component<any, EventViewState> {
     }
 
     render() {
-        return this.state.loading ?
+        return this.props.loading ?
             <AppLoading /> : (
                 <Container>
                     <Content >
@@ -86,7 +76,7 @@ export class EventView extends React.Component<any, EventViewState> {
     createMenu(methodMap: { [method: string]: Function }): Element[] {
         let items: Element[] = [];
         let index = 1;
-        for (var method in methodMap) {
+        for (let method in methodMap) {
             items.push(<Picker.Item key={index} label={method} value={method} />)
             index++;
         }
@@ -99,7 +89,7 @@ export class EventView extends React.Component<any, EventViewState> {
                 mode="dropdown"
                 iosHeader="Sort"
                 style={{ flex: 1 }}
-                selectedValue={this.state.sortingMethod}
+                selectedValue={this.props.sortingMethod}
                 onValueChange={this.changeSortingMethod.bind(this)}>
                 {this.getSortingMenuItems()}
             </Picker>
@@ -110,7 +100,7 @@ export class EventView extends React.Component<any, EventViewState> {
     }
 
     changeSortingMethod(method: string, position: number) {
-        this.setState({ ...this.state, sortingMethod: this.sortingMethodMap[method] });
+        this.props.changeSortingMethod( this.sortingMethodMap[method]);
     }
 
     getFilterMenu(): React.ReactNode {
@@ -119,7 +109,7 @@ export class EventView extends React.Component<any, EventViewState> {
                 mode="dropdown"
                 iosHeader="Filter"
                 style={{ flex: 1 }}
-                selectedValue={this.state.filteringMethod}
+                selectedValue={this.props.filteringMethod}
                 onValueChange={this.changeFilteringMethod.bind(this)}>
                 {this.getFilterMenuItems()}
             </Picker>
@@ -130,10 +120,9 @@ export class EventView extends React.Component<any, EventViewState> {
         return this.createMenu(this.filteringMethodMap);
     }
 
-    changeFilteringMethod(method: string, position: number) {
-        console.log("setting state");
-        this.setState({ ...this.state, filteringMethod: this.filteringMethodMap[method] });
-        console.log("state set");
+    changeFilteringMethod(method: string) {
+        
+        this.props.changeFilteringMethod(this.filteringMethodMap[method]);
     }
 
     setStartDateRange() { }
@@ -184,7 +173,7 @@ export class EventView extends React.Component<any, EventViewState> {
         for (var i: number = 0; i < 6; i++) {
             events.push(this.getEvent())
         }
-        return events.filter(this.state.filteringMethod).sort(this.state.sortingMethod);
+        return events.filter(this.props.filteringMethod).sort(this.props.sortingMethod);
     }
     getEvent(): Event {
         let client: User = {
@@ -255,6 +244,25 @@ export class EventView extends React.Component<any, EventViewState> {
         ];
     }
 }
-
-var EventsViews = connect(mapStateToProps, mapDispatchToProps)(EventView);
-export default EventsViews;
+let mapStateToProps = (state: EventViewState) => {
+    return {
+        events: state.events,
+        loading: state.loading,
+        filteringMethod: state.filteringMethod,
+        sortingMethod: state.sortingMethod,
+        endDateRange: state.endDateRange,
+        startDateRange: state.startDateRange
+    };
+}
+let mapDispatchToProps = (dispatch: any) => {
+    return {
+        loadEvents: (events: Event[]) => dispatch(EventViewActions.loadEvents(events)),
+        changeFilteringMethod: (method: FilteringMethod) => dispatch(EventViewActions.changeFilteringMethod(method)),
+        changeSortingMethod: (method: SortingMethod) => dispatch(EventViewActions.changeSortingMethod(method)),
+        changeStartDateRange: (date: Date) => dispatch(EventViewActions.changeStartDateRange(date)),
+        changeEndDateRange: (date: Date) => dispatch(EventViewActions.changeEndDateRange(date)),
+        toggleView: (loading: boolean) => dispatch(EventViewActions.toggleView(loading))
+    };
+}
+let EventsView = connect(mapStateToProps, mapDispatchToProps)(EventView);
+export default EventsView;
