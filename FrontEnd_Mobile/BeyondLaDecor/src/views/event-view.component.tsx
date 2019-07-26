@@ -34,7 +34,7 @@ class EventView extends React.Component<any, EventViewState> {
         this.filteringMethodMap = this.createFilteringMethodMap();
     }
 
-    async componentDidMount() {
+     componentDidMount() {
         HttpService.getEvents().then((response) => {
             this.props.loadEvents(response);
         }).then(() => { this.props.toggleView(false) });
@@ -165,7 +165,7 @@ class EventView extends React.Component<any, EventViewState> {
         </Container>;
     }
     getEventCards(): Element[] {
-        return this.events.map((event: Event, index: number): Element =>
+        return this. events && this.events.map((event: Event, index: number): Element =>
             <EventCard style={{ height: 40 }} key={index} event={event} tasks={this.getTasks()}></EventCard>)
     }
     getEvents(): Event[] {
