@@ -15,8 +15,6 @@ export class Login extends React.Component<{}, LoginState> {
             viewingAdmin: true,
             attemptingToLogin: false
         };
-        console.log(this.state);
-        console.log(this.props);
     }
     render() {
         return (

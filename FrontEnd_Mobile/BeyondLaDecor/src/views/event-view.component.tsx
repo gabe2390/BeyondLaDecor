@@ -7,7 +7,7 @@ import { Package } from "../models/package.model";
 import { Task } from "../models/task.model";
 import { Event } from "../models/event.model";
 import { SortingMethods, SortingMethod } from "../utilities/sorting-methods";
-import { FilteringMethods, FilteringMethod } from "../utilities/filtering-methods";
+import { FilteringMethods, FilteringMethod, DateRange } from "../utilities/filtering-methods";
 import { AppLoading } from "expo";
 import Axios from "axios";
 import { connect } from "react-redux";
@@ -17,8 +17,7 @@ import { HttpService } from "../services/httpservice.service";
 export interface EventViewState {
     filteringMethod: FilteringMethod,
     sortingMethod: SortingMethod,
-    startDateRange?: Date,
-    endDateRange?: Date,
+    dateRange: DateRange,
     events: Event[],
     loading: boolean
 }
@@ -34,10 +33,14 @@ class EventView extends React.Component<any, EventViewState> {
         this.filteringMethodMap = this.createFilteringMethodMap();
     }
 
-     componentDidMount() {
+    componentDidMount() {
         HttpService.getEvents().then((response) => {
             this.props.loadEvents(response);
-        }).then(() => { this.props.toggleView(false) });
+        }).then(() => {
+            this.props.toggleView(false)
+        }).catch((e) => {
+            console.log(e);
+        });
     }
 
     createSortingMethodMap(): { [method: string]: SortingMethod } {
@@ -100,7 +103,7 @@ class EventView extends React.Component<any, EventViewState> {
     }
 
     changeSortingMethod(method: string, position: number) {
-        this.props.changeSortingMethod( this.sortingMethodMap[method]);
+        this.props.changeSortingMethod(this.sortingMethodMap[method]);
     }
 
     getFilterMenu(): React.ReactNode {
@@ -121,12 +124,15 @@ class EventView extends React.Component<any, EventViewState> {
     }
 
     changeFilteringMethod(method: string) {
-        
         this.props.changeFilteringMethod(this.filteringMethodMap[method]);
     }
 
-    setStartDateRange() { }
-    setEndDateRange() { }
+    setStartDateRange(date: Date): void {
+        this.props.changeStartDateRange(date);
+    }
+    setEndDateRange(date: Date): void {
+        this.props.changeEndDateRange(date);
+    }
     getDateRangeMenu(): any {
         let startDatePicker = <DatePicker
             defaultDate={new Date(2018, 4, 4)}
@@ -165,7 +171,7 @@ class EventView extends React.Component<any, EventViewState> {
         </Container>;
     }
     getEventCards(): Element[] {
-        return this. events && this.events.map((event: Event, index: number): Element =>
+        return this.events && this.events.map((event: Event, index: number): Element =>
             <EventCard style={{ height: 40 }} key={index} event={event} tasks={this.getTasks()}></EventCard>)
     }
     getEvents(): Event[] {
@@ -173,8 +179,12 @@ class EventView extends React.Component<any, EventViewState> {
         for (var i: number = 0; i < 6; i++) {
             events.push(this.getEvent())
         }
-        return events.filter(this.props.filteringMethod).sort(this.props.sortingMethod);
+        return events
+            .filter((event: Event) => this.props.filteringMethod(event))
+            .filter((event : Event)=> FilteringMethods.dateRangeFilter(event, this.props.dateRange))
+            .sort(this.props.sortingMethod);
     }
+
     getEvent(): Event {
         let client: User = {
             firstName: "Abe",
@@ -250,8 +260,7 @@ let mapStateToProps = (state: EventViewState) => {
         loading: state.loading,
         filteringMethod: state.filteringMethod,
         sortingMethod: state.sortingMethod,
-        endDateRange: state.endDateRange,
-        startDateRange: state.startDateRange
+        dateRange: state.dateRange
     };
 }
 let mapDispatchToProps = (dispatch: any) => {

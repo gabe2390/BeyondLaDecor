@@ -1,9 +1,11 @@
 import { EVENT_VIEW_ACTION_CONSTANTS } from "../../constants/constants";
 import { EventViewState } from "../../views/event-view.component";
-import { FilteringMethods } from "../../utilities/filtering-methods";
+import { FilteringMethods, DateRange } from "../../utilities/filtering-methods";
 import { SortingMethods } from "../../utilities/sorting-methods";
+import { DateHelper } from "../../utilities/date-functions";
 
 const intialState: EventViewState = {
+    dateRange: { startDate: DateHelper.monthsFrom(-12), endDate: DateHelper.monthsFrom(12) },
     events: [],
     loading: true,
     filteringMethod: FilteringMethods.empty,
@@ -19,11 +21,11 @@ function eventViewReducer(state: EventViewState = intialState, action: any): Eve
         case EVENT_VIEW_ACTION_CONSTANTS.CHANGE_SORTING_METHOD:
             return { ...state, sortingMethod: action.payload };
         case EVENT_VIEW_ACTION_CONSTANTS.CHANGE_START_DATE_RANGE:
-            return { ...state, startDateRange: action.payload };
+            return { ...state, dateRange: { ...state.dateRange, startDate: action.payload } };
         case EVENT_VIEW_ACTION_CONSTANTS.CHANGE_END_DATE_RANGE:
-            return { ...state, endDateRange: action.payload };
-            case EVENT_VIEW_ACTION_CONSTANTS.TOGGLE_VIEW :
-                return {...state, loading : action.payload}
+            return { ...state, dateRange: { ...state.dateRange, endDate: action.payload } };
+        case EVENT_VIEW_ACTION_CONSTANTS.TOGGLE_VIEW:
+            return { ...state, loading: action.payload }
         default: return state;
     };
 }

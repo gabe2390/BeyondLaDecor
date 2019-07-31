@@ -166,7 +166,7 @@ namespace BeyondLaDecor.Beyond.Api
             {
                 //app.UseHsts();
             }
-            app.UseCors(options => options.WithOrigins("https://localhost:44331/").AllowAnyMethod());
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowCredentials().AllowAnyMethod());
             app.UseMvc();
             app.UseAuthentication();
         }
